@@ -2,7 +2,7 @@ package com.tm.dao;
 
 public class DAOConfigurationException extends RuntimeException {
 	/*
-	 * Constructeurs
+	 * s Constructeurs
 	 */
 	public DAOConfigurationException(String message) {
 		super(message);

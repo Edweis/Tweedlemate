@@ -5,7 +5,13 @@
  http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="db_tm_PU" transaction-type="JTA">
         <jta-data-source>DB_TM_MySQLRessources</jta-data-source>
+        <class>com.tm.entities.Contact</class>
+        <class>com.tm.entities.Country</class>
+        <class>com.tm.entities.Education</class>
+        <class>com.tm.entities.School</class>
         <class>com.tm.entities.User</class>
+        <class>com.tm.entities.Work</class>
+        <class>com.tm.entities.WorkCursus</class>
         <properties/>      
     </persistence-unit>  
 </persistence>

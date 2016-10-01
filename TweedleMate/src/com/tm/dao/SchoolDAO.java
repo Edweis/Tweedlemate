@@ -4,19 +4,19 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import com.tm.entities.Education;
+import com.tm.entities.School;
 
 @Stateless
-public class EducationDAO {
+public class SchoolDAO {
 
 	@PersistenceContext(unitName = "db_tm_PU")
 	private EntityManager em;
 
-	public void create(Education education) throws DAOException {
+	public void create(School school) throws DAOException {
 		try {
-			em.persist(education);
+			em.persist(school);
 		} catch (Exception e) {
-			throw new DAOException("Error in Education persistence", e);
+			throw new DAOException("Error in School persistence", e);
 		}
 	}
 }

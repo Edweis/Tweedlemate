@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.tm.dao.ConnectionException;
-import com.tm.dao.UserDao;
+import com.tm.dao.UserDAO;
 import com.tm.entities.User;
 import com.tm.forms.UserRegistrationForm;
 
@@ -29,7 +29,7 @@ public class Inscription extends HttpServlet {
 	private static final String PS_USER = "connectedUser";
 
 	@EJB
-	private UserDao userdao;
+	private UserDAO userdao;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

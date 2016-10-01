@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.tm.dao.ConnectionException;
-import com.tm.dao.UserDao;
+import com.tm.dao.UserDAO;
 import com.tm.entities.User;
 
 /**
@@ -32,7 +32,7 @@ public class Login extends HttpServlet {
 	private static final String VUE_REDIRECT = "/Profile";
 
 	@EJB
-	private UserDao userdao;
+	private UserDAO userdao;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import com.tm.entities.User;
 
 @Stateless
-public class UserDao {
+public class UserDAO {
 	private static final String Q_SELECT_BY_EMAIL = "SELECT u FROM User u WHERE u.Email = :email";
 	private static final String PQ_EMAIL = "email";
 
@@ -21,7 +21,7 @@ public class UserDao {
 	 * 
 	 * @param User
 	 */
-	public void create(User User) {
+	public void create(User User) throws DAOException {
 		try {
 			em.persist(User);
 		} catch (Exception e) {
@@ -39,13 +39,13 @@ public class UserDao {
 
 		try {
 			User query = em.createQuery(Q_SELECT_BY_EMAIL, User.class).setParameter(PQ_EMAIL, email).getSingleResult();
-
+			return query;
 			// if the answer is empty
-			if (query.getEmail() == null) {
-				return null;
-			} else {
-				return query;
-			}
+			// if (query.getEmail() == null) {
+			// return null;
+			// } else {
+			// return query;
+			// }
 		} catch (NoResultException e) {
 			return null;
 		}

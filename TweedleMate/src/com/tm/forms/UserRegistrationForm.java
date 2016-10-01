@@ -17,7 +17,7 @@ import javax.servlet.http.Part;
 import org.joda.time.DateTime;
 
 import com.tm.dao.DAOException;
-import com.tm.dao.UserDao;
+import com.tm.dao.UserDAO;
 import com.tm.entities.User;
 
 import eu.medsea.mimeutil.MimeUtil;
@@ -36,15 +36,15 @@ public final class UserRegistrationForm {
 	private static final int TAILLE_TAMPON = 10240; // 10ko
 
 	private String resultat;
-	private Map<String, String> erreurs = new HashMap<String, String>();
-	private UserDao userDao;
+	private Map<String, String> errors = new HashMap<String, String>();
+	private UserDAO userDao;
 
-	public UserRegistrationForm(UserDao userDao) {
+	public UserRegistrationForm(UserDAO userDao) {
 		this.userDao = userDao;
 	}
 
 	public Map<String, String> getErrors() {
-		return erreurs;
+		return errors;
 	}
 
 	public String getResultat() {
@@ -73,16 +73,23 @@ public final class UserRegistrationForm {
 		user.setDateRegistration(DateTime.now());
 
 		try {
-			if (erreurs.isEmpty()) {
+			if (errors.isEmpty()) {
 				userDao.create(user);
 				resultat = "Registration suceeded.";
 			} else {
 				resultat = "Registration failed.";
 			}
 		} catch (DAOException e) {
-			setError("unexpected", "Unexpected error occured during user's creation in registration");
+			addError("unexpected", "Unexpected error occured during user's creation in registration");
 			resultat = "Échec de la création du User : une erreur imprévue est survenue, merci de réessayer dans quelques instants.";
 			e.printStackTrace();
+		}
+		if (errors.isEmpty()) {
+			try {
+				userDao.create(user);
+			} catch (DAOException e) {
+				addError("unexpected", e.getMessage());
+			}
 		}
 
 		return user;
@@ -111,24 +118,24 @@ public final class UserRegistrationForm {
 						// Passwords OK
 						user.setPassword(password);
 					} else {
-						setError(F_PASSWORD_VERIF, "Passwords don't match.");
+						addError(F_PASSWORD_VERIF, "Passwords don't match.");
 					}
 				} else {
-					setError(F_PASSWORD_VERIF, "Please insert the password twice.");
+					addError(F_PASSWORD_VERIF, "Please insert the password twice.");
 				}
 
 			} else {
-				setError(F_PASSWORD, "Your password should be at least 5 character long.");
+				addError(F_PASSWORD, "Your password should be at least 5 character long.");
 			}
 		} else {
-			setError(F_PASSWORD, "Please insert a password.");
+			addError(F_PASSWORD, "Please insert a password.");
 		}
 	}
 
 	private void checkFirstName(String firstname, User user) {
 		if (firstname != null) {
 			if (firstname.length() < 2) {
-				setError(F_FIRSTNAME, "Your first name should contain at least 2 caracters");
+				addError(F_FIRSTNAME, "Your first name should contain at least 2 caracters");
 			} else {
 				user.setFirstName(firstname);
 			}
@@ -138,10 +145,10 @@ public final class UserRegistrationForm {
 	private void checkEmail(String email, User user) {
 
 		if (email != null && !email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
-			setError(F_EMAIL, "Please enter a valide email address");
+			addError(F_EMAIL, "Please enter a valide email address");
 		} else {
 			if (userDao.findFromEmail(email) != null) {
-				setError(F_EMAIL,
+				addError(F_EMAIL,
 						"It appears that this email is already register, if you have any problem regarding registration please contact us !");
 			} else {
 				user.setEmail(email);
@@ -157,7 +164,7 @@ public final class UserRegistrationForm {
 			try {
 				validationImage(request);
 			} catch (FormValidationException e) {
-				setError(F_PICTUREPATH, e.getMessage());
+				addError(F_PICTUREPATH, e.getMessage());
 			}
 		}
 	}
@@ -239,8 +246,8 @@ public final class UserRegistrationForm {
 	/*
 	 * Ajoute un message correspondant au champ spécifié à la map des erreurs.
 	 */
-	private void setError(String champ, String message) {
-		erreurs.put(champ, message);
+	private void addError(String champ, String message) {
+		errors.put(champ, message);
 	}
 
 	/*
