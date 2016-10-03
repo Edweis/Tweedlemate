@@ -1,5 +1,7 @@
 package com.tm.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -10,7 +12,10 @@ import com.tm.entities.Country;
 @Stateless
 public class CountryDAO {
 
-	private static final String Q_SELECT_FROM_NAME = "SELECT u FROM User u WHERE u.Name = ?1";
+	private static final String Q_SELECT_FROM_NAME = "SELECT u FROM Country u WHERE u.Name = ?1";
+	private static final String Q_SELECT_FROM_CODE2 = "SELECT u FROM Country u WHERE u.Code2 = ?1";
+	private static final String Q_SELECT_FROM_CODE3 = "SELECT u FROM Country u WHERE u.Code3 = ?1";
+	private static final String Q_SELECT_ID_NAME = "SELECT c FROM Country c ORDER BY c.Name";
 
 	@PersistenceContext(unitName = "db_tm_PU")
 	private EntityManager em;
@@ -35,6 +40,27 @@ public class CountryDAO {
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+
+	public Country findFromCode2(String code2) {
+		try {
+			return em.createQuery(Q_SELECT_FROM_CODE2, Country.class).setParameter(1, code2).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	public Country findFromCode3(String code3) {
+		try {
+			return em.createQuery(Q_SELECT_FROM_CODE3, Country.class).setParameter(1, code3).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	public List<Country> getList() {
+		List<Country> listResultat = em.createQuery(Q_SELECT_ID_NAME, Country.class).getResultList();
+		return listResultat;
 	}
 
 }

@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tm.tools.ConnectionTools;
+
 /**
  * Servlet implementation class Logout
  */
 @WebServlet("/Logout")
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	private static final String PS_USER = "connectedUser";
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -28,7 +28,9 @@ public class Logout extends HttpServlet {
 	}
 
 	private void disconnect(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		request.getSession().removeAttribute(PS_USER);
+
+		ConnectionTools.AlterConnection(request).disconnect();
+
 		String previousURL = request.getHeader("Referer");
 
 		// if the previous URL was not valid let's go to the home page

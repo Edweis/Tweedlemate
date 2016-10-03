@@ -1,5 +1,7 @@
 package com.tm.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -9,7 +11,8 @@ import com.tm.entities.User;
 
 @Stateless
 public class UserDAO {
-	private static final String Q_SELECT_BY_EMAIL = "SELECT u FROM User u WHERE u.Email = :email";
+	private static final String Q_SELECT_BY_EMAIL = "SELECT u FROM User u WHERE u.Email=:email";
+	private static final String Q_SELECT_ALL = "SELECT u FROM User u";
 	private static final String PQ_EMAIL = "email";
 
 	// Manager injection
@@ -39,13 +42,12 @@ public class UserDAO {
 
 		try {
 			User query = em.createQuery(Q_SELECT_BY_EMAIL, User.class).setParameter(PQ_EMAIL, email).getSingleResult();
-			return query;
-			// if the answer is empty
-			// if (query.getEmail() == null) {
-			// return null;
-			// } else {
-			// return query;
-			// }
+
+			if (query.getEmail() == null) {
+				return null;
+			} else {
+				return query;
+			}
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -66,6 +68,10 @@ public class UserDAO {
 			// user not found
 			throw new ConnectionException("Email or password incorrect.");
 		}
+	}
+
+	public List<User> findAll() {
+		return em.createQuery(Q_SELECT_ALL, User.class).getResultList();
 	}
 
 }

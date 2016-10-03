@@ -63,12 +63,11 @@ public final class UserRegistrationForm {
 
 		User user = new User();
 		checkFirstName(firstname, user);
-		// checkFamilyName(familyName, user);
 		checkEmail(email, user);
 		// checkImage(picturePath, user, request);
 		checkPassword(password, passwordVerif, user);
-		// checkIntroductionText(introductionText, user);
-		// checkAppointmentPrice(appointmentPrice, user);
+		checkIntroductionText(introductionText, user);
+		checkAppointmentPrice(appointmentPrice, user);
 
 		user.setDateRegistration(DateTime.now());
 
@@ -99,14 +98,26 @@ public final class UserRegistrationForm {
 	 * Checkers
 	 */
 
+	/**
+	 * No checks
+	 * 
+	 * @param appointmentPrice
+	 * @param user
+	 */
 	private void checkAppointmentPrice(String appointmentPrice, User user) {
-		// TODO Auto-generated method stub
-
+		// TODO
+		user.setAppointmentPrice(appointmentPrice);
 	}
 
+	/**
+	 * No checks
+	 * 
+	 * @param introductionText
+	 * @param user
+	 */
 	private void checkIntroductionText(String introductionText, User user) {
 		// TODO Auto-generated method stub
-
+		user.setIntroductionText(introductionText);
 	}
 
 	private void checkPassword(String password, String passwordVerif, User user) {

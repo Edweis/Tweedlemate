@@ -1,13 +1,14 @@
 package com.tm.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -23,6 +24,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
+
 	private String Email;
 	private String Password;
 	private String FirstName;
@@ -37,12 +39,10 @@ public class User {
 	@Converter(name = "dateTimeConverter", converterClass = JodaDateTimeConverter.class)
 	@Convert("dateTimeConverter")
 	private DateTime DateRegistration;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdEducation")
-	private Education Education;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "IdWorkCursus")
-	private WorkCursus Workcursus;
+	@OneToMany(mappedBy = "User")
+	private List<Education> myEducation;
+	@OneToMany(mappedBy = "User")
+	private List<WorkCursus> myWorkcursus;
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Contact Contact;
@@ -122,20 +122,20 @@ public class User {
 		DateRegistration = dateRegistration;
 	}
 
-	public Education getEducation() {
-		return Education;
+	public List<Education> getMyEducation() {
+		return myEducation;
 	}
 
-	public void setEducation(Education education) {
-		Education = education;
+	public void setMyEducation(List<Education> myEducation) {
+		this.myEducation = myEducation;
 	}
 
-	public WorkCursus getWorkcursus() {
-		return Workcursus;
+	public List<WorkCursus> getMyWorkcursus() {
+		return myWorkcursus;
 	}
 
-	public void setWorkcursus(WorkCursus workcursus) {
-		Workcursus = workcursus;
+	public void setMyWorkcursus(List<WorkCursus> myWorkcursus) {
+		this.myWorkcursus = myWorkcursus;
 	}
 
 	public Contact getContact() {

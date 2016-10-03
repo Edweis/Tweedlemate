@@ -22,6 +22,9 @@ public class WorkCursus {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "IdUser")
+	private User User;
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdWork")
 	private Work Work;
 	@Column(columnDefinition = "TIMESTAMP")

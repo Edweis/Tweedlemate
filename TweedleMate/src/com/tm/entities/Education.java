@@ -15,6 +15,9 @@ public class Education {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "IdUser")
+	private User User;
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdSchool")
 	private School School;
 	private Integer DurationMonth;
@@ -96,4 +99,13 @@ public class Education {
 	public void setIsCurrentEducation(Boolean isCurrentEducation) {
 		IsCurrentEducation = isCurrentEducation;
 	}
+
+	public User getUser() {
+		return User;
+	}
+
+	public void setUser(User user) {
+		User = user;
+	}
+
 }

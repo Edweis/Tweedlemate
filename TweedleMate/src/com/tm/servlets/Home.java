@@ -10,38 +10,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tm.dao.CountryDAO;
-import com.tm.entities.Country;
+import com.tm.dao.UserDAO;
+import com.tm.entities.User;
 
 /**
- * Servlet implementation class Profile
+ * Servlet implementation class Home
  */
-@WebServlet("/Profile")
-public class Profile extends HttpServlet {
+@WebServlet("/Home")
+public class Home extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final String VUE = "/WEB-INF/pages/profile.jsp";
+	private static final String A_ALL_USER = "allUsers";
 
-	private static final String A_LISTCOUNTRIES = "countries";
+	private static final String VUE = "/WEB-INF/pages/home.jsp";
 
 	@EJB
-	private CountryDAO countryDao;
+	UserDAO userDao;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		// Fetch countries
-		List<Country> allCountries = countryDao.getList();
-
-		request.setAttribute(A_LISTCOUNTRIES, allCountries);
-
+		List<User> allUser = userDao.findAll();
+		request.setAttribute(A_ALL_USER, allUser);
 		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		doGet(request, response);
 	}
 

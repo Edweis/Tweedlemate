@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.tm.dao.ConnectionException;
 import com.tm.dao.UserDAO;
-import com.tm.entities.User;
+import com.tm.tools.ConnectionTools;
 
 /**
  * Servlet implementation class Login
@@ -23,8 +23,6 @@ public class Login extends HttpServlet {
 	private static final String P_EMAIL = "email";
 	private static final String P_PASS = "password";
 
-	private static final String AS_USER = "connectedUser";
-
 	private static final String AS_ERROR_MESSAGE = "connError";
 	private static final String AS_EMAIL = "connEmail";
 
@@ -32,7 +30,7 @@ public class Login extends HttpServlet {
 	private static final String VUE_REDIRECT = "/Profile";
 
 	@EJB
-	private UserDAO userdao;
+	private UserDAO userDao;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -46,9 +44,7 @@ public class Login extends HttpServlet {
 		String pass = request.getParameter(P_PASS);
 
 		try {
-			User u = userdao.Connect(email, pass);
-			request.getSession().setAttribute(AS_USER, u);
-
+			ConnectionTools.AlterConnection(userDao, request).ConnectionQuery(email, pass);
 		} catch (ConnectionException e) {
 			request.getSession().setAttribute(AS_EMAIL, email);
 			request.getSession().setAttribute(AS_ERROR_MESSAGE, e.getMessage());

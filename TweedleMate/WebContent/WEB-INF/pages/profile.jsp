@@ -5,6 +5,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>Profile</title>
 	<link href="<c:url value="/inc/css/style.css" />" rel="stylesheet">
+	<script type="text/javascript" src="<c:url value="/inc/js/jquery-3.1.1.js"/>"></script>
+	
 </head>
 <body>
 <%@ include file="/WEB-INF/inc/header.jsp" %>
@@ -36,38 +38,29 @@
 					<span>
 						<input type="text" id="appointmentPrice" disabled>
 					</span>
-					<li>Education : <c:out value="${u.education.durationMonth}"/><br/>
-					
-					<form  method="post" action="<c:url value='/UpdateInfo/Education' />">
-					<fieldset>
-						<legend>Add an education</legend>
-						<label for="schoolName">School Name</label> 
-						<input type="text" id="schoolName" name="schoolName" value="${form.schoolName }" size="20" maxlength="20" /><br/>
+					<li>Education :<br/>
+					<input type="submit" id="showNewEducation" value="Add a new education"/>
+					<div id="displayEducation">
+						<c:choose>
+							<c:when test="${not empty u.myEducation }">
+								<c:forEach items="${u.myEducation}" var="e">
+								<p>
+									You went to <b>${e.school.name }</b> for <b>${e.durationMonth }</b> month !<br/>
+									Oh wow you have studied in <b>${e.school.country.name }</b>> :o nice !<br/>
+									Home ? ${e.isHomeUniversity} <br/>
+									Current ? ${e.isCurrentEducation }
+								</p>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								You don't have put any education for now. If you want to do mentoring you should add one.
+							</c:otherwise>
 						
-						<label for="durationMonth">Duration (in month)</label> 
-						<input type="text" id="durationMonth" name="durationMonth" value="${form.durationMonth }" size="20" maxlength="20" /><br/>
-
-						<label for="startYear">Start year</label> 
-						<input type="text" id="startYear" name="startYear" value="${form.startYear }" size="20" maxlength="20" /><br/>
-						
-						<label for="promotion">Promotion</label> 
-						<input type="text" id="promotion" name="promotion" value="${form.promotion }" size="20" maxlength="20" /><br/>
-						
-						<label for="major">Major</label> 
-						<input type="text" id="major" name="major" value="${form.major }" size="20" maxlength="20" /><br/>
-
-						<label for="scholarship">Scholarship</label> 
-						<input type="text" id="scholarship" name="scholarship" value="${form.scholarship }" size="20" maxlength="20" /><br/>
-	
-						<input type="checkbox" id="isHomeuniversity" name="isHomeuniversity" value="${form.isHomeuniversity }" size="20" maxlength="20" />		
-						<label for="isHomeuniversity">Is it your home school ?</label> <br/>
-						
-						<input type="checkbox" id="isCurrentEducation" name="isCurrentEducation" value="${form.isCurrentEducation }" size="20" maxlength="20" />		
-						<label for="isCurrentEducation">Is it your current school ?</label> <br/>
-					
-						<input type="submit" value="addEducation">
-					</fieldset>
-					</form>
+						</c:choose>
+					</div>
+					<div id="newEducation">
+						<%@ include file="/WEB-INF/inc/forms/newEducation.jsp" %>
+					</div>
 					</li>
 				</ul>
 			</div>
@@ -78,6 +71,6 @@
 	
 		</c:choose>
 	</div>
-<%@ includefile="/WEB-INF/inc/footer.jsp" %>
+<%@ include file="/WEB-INF/inc/footer.jsp" %>
 </body>
 </html>
