@@ -146,4 +146,8 @@ public class User {
 		Contact = contact;
 	}
 
+	public String getProfileURI() {
+		return "/Profile/" + this.getId() + "/" + this.getFirstName();
+	}
+
 }

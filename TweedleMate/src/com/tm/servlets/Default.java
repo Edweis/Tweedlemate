@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Default
  */
-@WebServlet("/")
+@WebServlet({ "" })
 public class Default extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String VUE_DEFAULT = "/Home";

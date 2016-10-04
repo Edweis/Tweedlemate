@@ -3,7 +3,7 @@
 	<div id="connectionBlock">
 	<c:choose>
 		<c:when test="${ empty sessionScope.connectedUser }">
-		<form method="post" action='<c:url value="Login" />' >
+		<form method="post" action='<c:url value="/Login" />' >
 		<fieldset>
 			<legend>You are not connected, wanna try ?</legend>
 			<label for="email">Email</label> 
@@ -20,7 +20,8 @@
 		</form>
 		</c:when>
 		<c:otherwise>
-			<p>How are you <c:out value="${sessionScope.connectedUser.firstName }"/> ?</p>
+		<c:set var="hu" value="${sessionScope.connectedUser }"/>
+			<p>How are you <a href="<c:url value='/Profile/${hu.id }/${hu.firstName }'/> "><c:out value="${hu.firstName }"/> ?</a></p>
 			<p>Wanna <a href='<c:url value="/Logout"/>'>disconnect ?</a></p>
 		</c:otherwise>
 	</c:choose>

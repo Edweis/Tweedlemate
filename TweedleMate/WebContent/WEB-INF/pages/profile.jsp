@@ -11,16 +11,18 @@
 <body>
 <%@ include file="/WEB-INF/inc/header.jsp" %>
 
+
+
+
 <div id="content">
-<c:forEach items="${allUsers }" var="u">
-	<div id="u.id" style="width:200px; float:left">
-		<p>
-			<b><a href="<c:out value="/Pofile/${u.id}/${u.firstName}"/>">${u.firstName }</a></b><br>
-			${u.email }"
-		</p>
-	</div>
-</c:forEach>
+<p>
+Profile de ${shownUser.firstName } avec l'id  ${shownUser.id }
+</p>
 </div>
+
+
+
+
 
 <%@ include file="/WEB-INF/inc/footer.jsp" %>
 </body>

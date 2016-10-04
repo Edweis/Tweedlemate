@@ -17,14 +17,14 @@ import com.tm.forms.UserRegistrationForm;
 /**
  * Servlet implementation class Inscription
  */
-@WebServlet(urlPatterns = "/Inscription")
-public class Inscription extends HttpServlet {
+@WebServlet(urlPatterns = "/Registration")
+public class Registration extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String A_FORM_RESPONSE = "form";
 
-	private static final String VUE_SUCESS = "/Profile";
-	private static final String VUE_FAIL = "/WEB-INF/pages/inscription.jsp";
+	private static final String VUE_SUCESS = "/Home";
+	private static final String VUE_FAIL = "/WEB-INF/pages/registration.jsp";
 
 	private static final String PS_USER = "connectedUser";
 
