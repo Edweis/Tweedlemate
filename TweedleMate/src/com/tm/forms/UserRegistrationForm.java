@@ -145,8 +145,9 @@ public final class UserRegistrationForm {
 
 	private void checkFirstName(String firstname, User user) {
 		if (firstname != null) {
-			if (firstname.length() < 2) {
-				addError(F_FIRSTNAME, "Your first name should contain at least 2 caracters");
+			if (firstname.matches("^[a-z0-9_-]{2,20}$")) {
+				addError(F_FIRSTNAME,
+						"You're first name can only contains letters, numbers, - and _. It should have more than 2 characters");
 			} else {
 				user.setFirstName(firstname);
 			}
