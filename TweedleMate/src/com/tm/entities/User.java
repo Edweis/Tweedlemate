@@ -2,12 +2,14 @@ package com.tm.entities;
 
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -30,7 +32,9 @@ public class User {
 	private String FirstName;
 
 	// Asttributes below are not mandatory
-	private String PicturePath;
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] Picture;
 	private String IntroductionText;
 	private String AppointmentPrice;
 
@@ -90,12 +94,12 @@ public class User {
 		FirstName = firstName;
 	}
 
-	public String getPicturePath() {
-		return PicturePath;
+	public byte[] getPicture() {
+		return Picture;
 	}
 
-	public void setPicturePath(String picturePath) {
-		PicturePath = picturePath;
+	public void setPicture(byte[] picture) {
+		Picture = picture;
 	}
 
 	public String getIntroductionText() {

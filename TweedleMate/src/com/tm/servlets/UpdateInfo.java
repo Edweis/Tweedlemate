@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +18,11 @@ import com.tm.dao.EducationDAO;
 import com.tm.dao.SchoolDAO;
 import com.tm.dao.UserDAO;
 import com.tm.forms.UpdateEducationForm;
+import com.tm.forms.UpdatePicture;
 import com.tm.tools.ConnectionTools;
 
 @WebServlet("/UpdateInfo/*")
+@MultipartConfig
 public class UpdateInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -56,16 +59,27 @@ public class UpdateInfo extends HttpServlet {
 
 		// Do things accordingly
 		if (position.length > 0) {
-			if ("Education".equals(position[1])) {
-				UpdateEducationForm form = new UpdateEducationForm(educationDao, schoolDao, countryDao);
-				form.addEducation(request, response);
+			switch (position[1]) {
 
-				if (form.getErrors().isEmpty()) {
+			case "Education":
+				UpdateEducationForm formEdu = new UpdateEducationForm(educationDao, schoolDao, countryDao);
+				formEdu.addEducation(request, response);
+
+				if (formEdu.getErrors().isEmpty()) {
 					messagesMap.put(L_EDUCATION,
 							"New education added ! You can now get contacted by mentees for an appointment.");
 				} else {
-					request.getSession().setAttribute(AS_ERROR, form.getErrors());
+					request.getSession().setAttribute(AS_ERROR, formEdu.getErrors());
 				}
+				break;
+
+			case "Picture":
+				UpdatePicture formPic = new UpdatePicture(userDao);
+				formPic.addPicture(request, response);
+				break;
+
+			default:
+				break;
 			}
 		}
 

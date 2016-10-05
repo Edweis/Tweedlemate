@@ -26,18 +26,19 @@
 			<div id="optionalInfos">
 			
 				<ul>
-					<li>Picture Path : <c:out value="${u.picturePath }"/></li>
-					<span>
-						<input type="text" id="picturePath" disabled>
-					</span>
+					<li>Picture Path : <c:out value="${u.picture }"/><br/>
+						<form action="<c:url value='/UpdateInfo/Picture' />" method="post" enctype="multipart/form-data">
+							<input type="file"  name="picturePath">
+							<input type="submit" value="Add picture">
+						</form>
+					</li>
 					<li>Introduction Text : <c:out value="${u.introductionText }"/></li>
 					<span>
 						<input type="text" id="introductionText" disabled>
 					</span>
-					<li>Appointment Price : <c:out value="${u.appointmentPrice }"/></li>
-					<span>
-						<input type="text" id="appointmentPrice" disabled>
-					</span>
+					<li>Appointment Price : <c:out value="${u.appointmentPrice }"/><br/>
+					<input type="text" id="appointmentPrice" disabled>
+					</li>
 					<li>Education :<br/>
 					<input type="submit" id="showNewEducation" value="Add a new education"/>
 					<div id="displayEducation">

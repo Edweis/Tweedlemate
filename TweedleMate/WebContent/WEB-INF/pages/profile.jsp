@@ -16,7 +16,7 @@
 
 <div id="content">
 <p>
-Profile de ${shownUser.firstName } avec l'id  ${shownUser.id }
+	Profile de ${shownUser.firstName } avec l'id  ${shownUser.id }
 </p>
 </div>
 

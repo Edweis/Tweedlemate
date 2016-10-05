@@ -15,6 +15,6 @@ public class Chat {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	private String Title;
-	@OneToMany(mappedBy = "Writer")
+	@OneToMany(mappedBy = "Chat")
 	private List<Message> Messages;
 }
