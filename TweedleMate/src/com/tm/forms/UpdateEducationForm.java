@@ -1,25 +1,22 @@
 package com.tm.forms;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletRequest;
 
 import org.joda.time.DateTime;
 
 import com.tm.dao.CountryDAO;
-import com.tm.dao.DAOException;
 import com.tm.dao.EducationDAO;
 import com.tm.dao.SchoolDAO;
 import com.tm.entities.Country;
 import com.tm.entities.Education;
 import com.tm.entities.School;
 import com.tm.entities.User;
-import com.tm.tools.ConnectionTools;
 
-public class UpdateEducationForm {
+public class UpdateEducationForm extends UpdateForm {
 	// Education
+	String sucessMessage = "New education added ! You can now get contacted by mentees for an appointment.";
+	String labelFieldSucess = "educationLabel";
+
 	private static final String F_SCHOOL_NAME = "schoolName";
 	private static final String F_DURATION_MONTH = "durationMonth";
 	private static final String F_START_YEAR = "startYear";
@@ -30,11 +27,20 @@ public class UpdateEducationForm {
 	private static final String F_IS_CURRENT = "isCurrentEducation";
 	private static final String F_COUNTRY_CODE3 = "country";
 
-	private Map<String, String> errors = new HashMap<String, String>();
-
 	private EducationDAO educationDao;
 	private SchoolDAO schoolDao;
 	private CountryDAO countryDao;
+
+	private String schoolName;
+	private String countryCode3;
+	private String durationMonth;
+	private String startYear;
+	private String promotion;
+	private String scholarship;
+	private String major;
+	private String isHomeUniversity;
+	private String isCurrentEducation;
+	private Country inputCountry;
 
 	public UpdateEducationForm(EducationDAO educationDao, SchoolDAO schoolDao, CountryDAO countryDao) {
 		this.educationDao = educationDao;
@@ -42,60 +48,59 @@ public class UpdateEducationForm {
 		this.countryDao = countryDao;
 	}
 
-	public void addEducation(HttpServletRequest request, HttpServletResponse response) {
+	protected void getAllParameters(ServletRequest request) {
+		schoolName = request.getParameter(F_SCHOOL_NAME);
+		countryCode3 = request.getParameter(F_COUNTRY_CODE3);
+		durationMonth = request.getParameter(F_DURATION_MONTH);
+		startYear = request.getParameter(F_START_YEAR);
+		promotion = request.getParameter(F_PROMOTION);
+		major = request.getParameter(F_MAJOR);
+		scholarship = request.getParameter(F_SCHOLARSHIP);
+		isHomeUniversity = request.getParameter(F_IS_HOME);
+		isCurrentEducation = request.getParameter(F_IS_CURRENT);
 
-		// Gather data
-		User user = ConnectionTools.getUserConnected(request);
+		inputCountry = checkAndGetCountry(countryCode3);
+	}
 
-		String schoolName = request.getParameter(F_SCHOOL_NAME);
-		String countryCode3 = request.getParameter(F_COUNTRY_CODE3);
-		String durationMonth = request.getParameter(F_DURATION_MONTH);
-		String startYear = request.getParameter(F_START_YEAR);
-		String promotion = request.getParameter(F_PROMOTION);
-		String major = request.getParameter(F_MAJOR);
-		String scholarship = request.getParameter(F_SCHOLARSHIP);
-		String isHomeUniversity = request.getParameter(F_IS_HOME);
-		String isCurrentEducation = request.getParameter(F_IS_CURRENT);
-
-		Country cou = new Country();
-		School sch = new School();
-		Education edu = new Education();
-
-		// Check data
-		cou = checkAndGetCountry(countryCode3);
+	protected void checkData() {
 		checkDurationMonth(durationMonth);
 		checkStartYear(startYear);
 		checkPromotion(promotion);
 		checkMajor(major);
 		checkScholarchip(scholarship);
+	}
 
-		// Create objects
-		if (errors.isEmpty()) {
-			try {
-				sch.setCountry(cou);
-				sch.setName(schoolName);
+	private School createSchool() {
+		School sch = new School();
 
-				schoolDao.create(sch);
-			} catch (DAOException e) {
-				addError("unexpected", e.getMessage());
-			}
+		sch.setCountry(inputCountry);
+		sch.setName(schoolName);
 
-			try {
-				edu.setUser(user);
-				edu.setSchool(sch);
-				edu.setDurationMonth(Integer.parseInt(durationMonth));
-				edu.setStartYear(Integer.parseInt(startYear));
-				edu.setPromotion(promotion);
-				edu.setMajor(major);
-				edu.setScholarship(scholarship);
-				edu.setIsCurrentEducation(Boolean.parseBoolean(isCurrentEducation));
-				edu.setIsHomeUniversity(Boolean.parseBoolean(isHomeUniversity));
+		return sch;
+	}
 
-				educationDao.create(edu);
-			} catch (DAOException e) {
-				addError("unexpected", e.getMessage());
-			}
-		}
+	private Education createEducation(User connectedUser, School inputSchool) {
+		Education edu = new Education();
+
+		edu.setUser(connectedUser);
+		edu.setSchool(inputSchool);
+		edu.setDurationMonth(Integer.parseInt(durationMonth));
+		edu.setStartYear(Integer.parseInt(startYear));
+		edu.setPromotion(promotion);
+		edu.setMajor(major);
+		edu.setScholarship(scholarship);
+		edu.setIsCurrentEducation(Boolean.parseBoolean(isCurrentEducation));
+		edu.setIsHomeUniversity(Boolean.parseBoolean(isHomeUniversity));
+
+		return edu;
+	}
+
+	protected void persist(User connectedUser) {
+		School sch = createSchool();
+		Education edu = createEducation(connectedUser, sch);
+
+		schoolDao.create(sch);
+		educationDao.create(edu);
 	}
 
 	private void checkScholarchip(String scholarship) {
@@ -110,8 +115,8 @@ public class UpdateEducationForm {
 	private void checkStartYear(String startYear) {
 		try {
 			int i = Integer.parseInt(startYear);
-			if (i <= DateTime.now().getYear() + 1) {
-				addError(F_DURATION_MONTH, "Oh wow you studied for a negative number of years ?");
+			if (i > DateTime.now().getYear() + 1) {
+				addError(F_DURATION_MONTH, "You can't add a school you have't been yet.");
 			}
 			if (i <= 1000) {
 				addError(F_DURATION_MONTH, "Incorrect year");
@@ -134,17 +139,10 @@ public class UpdateEducationForm {
 
 	private Country checkAndGetCountry(String countryCode3) {
 		Country c = countryDao.findFromCode3(countryCode3);
-		if (countryCode3.length() == 3 || c == null) {
+		if (c == null) {
 			addError(F_COUNTRY_CODE3, "Oh and where was that ?");
 		}
 		return c;
 	};
 
-	public Map<String, String> getErrors() {
-		return errors;
-	}
-
-	private void addError(String field, String message) {
-		errors.put(field, message);
-	}
 }

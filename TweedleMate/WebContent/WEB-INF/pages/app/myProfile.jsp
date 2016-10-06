@@ -26,9 +26,9 @@
 			<div id="optionalInfos">
 			
 				<ul>
-					<li>Picture Path : <c:out value="${u.picture }"/><br/>
+					<li>Picture Path : <c:out value="${u.picturePath }"/><br/>
 						<form action="<c:url value='/UpdateInfo/Picture' />" method="post" enctype="multipart/form-data">
-							<input type="file"  name="picturePath">
+							<input type="file"  name="picturePath" accept="image/*">
 							<input type="submit" value="Add picture">
 						</form>
 					</li>
@@ -45,12 +45,14 @@
 						<c:choose>
 							<c:when test="${not empty u.myEducation }">
 								<c:forEach items="${u.myEducation}" var="e">
-								<p>
-									You went to <b>${e.school.name }</b> for <b>${e.durationMonth }</b> month !<br/>
-									Oh wow you have studied in <b>${e.school.country.name }</b>> :o nice !<br/>
-									Home ? ${e.isHomeUniversity} <br/>
-									Current ? ${e.isCurrentEducation }
-								</p>
+								<div style="width:200px; float:left">
+									<p>
+										You went to <b>${e.school.name }</b> for <b>${e.durationMonth }</b> month !<br/>
+										Oh wow you have studied in <b>${e.school.country.name }</b>> :o nice !<br/>
+										Home ? ${e.isHomeUniversity} <br/>
+										Current ? ${e.isCurrentEducation }
+									</p>
+								</div>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
@@ -60,6 +62,7 @@
 						</c:choose>
 					</div>
 					<div id="newEducation">
+					TODO : LAISSER OUVERT APRES UNE UNE ERREUR DANS LE TRAITEMENT DU FORMULAIRE 
 						<%@ include file="/WEB-INF/inc/forms/newEducation.jsp" %>
 					</div>
 					</li>

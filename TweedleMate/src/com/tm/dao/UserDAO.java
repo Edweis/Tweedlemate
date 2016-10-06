@@ -15,6 +15,8 @@ public class UserDAO {
 	private static final String Q_SELECT_ALL = "SELECT u FROM User u";
 	private static final String Q_SELECT_BY_ID = "SELECT u FROM User u WHERE u.Id=?1";
 
+	private static final String Q_UPDATE_PICTURE_PATH = "UPDATE User u SET u.PicturePath=?1 WHERE u.Id=?2";
+
 	// Manager injection
 	@PersistenceContext(unitName = "db_tm_PU")
 	private EntityManager em;
@@ -54,6 +56,15 @@ public class UserDAO {
 
 	}
 
+	/**
+	 * 
+	 * @param email
+	 * @param password
+	 * @return The current connected User
+	 * @throws ConnectionException
+	 *             When the password and email don't match with the information
+	 *             in the database
+	 */
 	public User Connect(String email, String password) throws ConnectionException {
 		User user = findFromEmail(email);
 		if (user != null) {
@@ -99,6 +110,18 @@ public class UserDAO {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	/**
+	 * Update the picturePath of the connectedUser in the database. The new
+	 * picturePath is the one referenced in the object connectedUser
+	 * 
+	 * @param connectedUser
+	 */
+	public void updatePicturePath(User connectedUser) {
+		Object newPicturePath = connectedUser.getPicturePath();
+		Object userId = connectedUser.getId();
+		em.createQuery(Q_UPDATE_PICTURE_PATH).setParameter(1, newPicturePath).setParameter(2, userId).executeUpdate();
 	}
 
 }

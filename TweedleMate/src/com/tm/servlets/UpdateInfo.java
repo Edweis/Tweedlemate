@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tm.dao.ConnectionException;
 import com.tm.dao.CountryDAO;
 import com.tm.dao.EducationDAO;
 import com.tm.dao.SchoolDAO;
 import com.tm.dao.UserDAO;
 import com.tm.forms.UpdateEducationForm;
+import com.tm.forms.UpdateForm;
 import com.tm.forms.UpdatePicture;
-import com.tm.tools.ConnectionTools;
 
 @WebServlet("/UpdateInfo/*")
 @MultipartConfig
@@ -30,8 +29,6 @@ public class UpdateInfo extends HttpServlet {
 
 	private static final String AS_ERROR = "updateErrors";
 	private static final String AS_RESULT = "updateMessages";
-	private static final String L_EDUCATION = "educationLabel"; // L stands for
-																// "Label"
 
 	private Map<String, String> messagesMap = new HashMap<String, String>();
 
@@ -58,36 +55,30 @@ public class UpdateInfo extends HttpServlet {
 		String[] position = p.split("/");
 
 		// Do things accordingly
+		UpdateForm form = null;
 		if (position.length > 0) {
 			switch (position[1]) {
 
 			case "Education":
-				UpdateEducationForm formEdu = new UpdateEducationForm(educationDao, schoolDao, countryDao);
-				formEdu.addEducation(request, response);
-
-				if (formEdu.getErrors().isEmpty()) {
-					messagesMap.put(L_EDUCATION,
-							"New education added ! You can now get contacted by mentees for an appointment.");
-				} else {
-					request.getSession().setAttribute(AS_ERROR, formEdu.getErrors());
-				}
+				form = new UpdateEducationForm(educationDao, schoolDao, countryDao);
 				break;
-
 			case "Picture":
-				UpdatePicture formPic = new UpdatePicture(userDao);
-				formPic.addPicture(request, response);
+				form = new UpdatePicture(userDao);
 				break;
-
 			default:
-				break;
+				// If we don't understand, return to the default page
+				response.sendRedirect(request.getContextPath() + VUE_DEFAULT);
+				return;
 			}
-		}
 
-		// Update the user of the session
-		try {
-			ConnectionTools.AlterConnection(request).RefreshUser();
-		} catch (ConnectionException e) {
-			// user not connected
+			// From handling
+			form.add(request);
+
+			if (form.isSuccess()) {
+				messagesMap.put(form.labelFieldSucess, form.successMessage);
+			} else {
+				request.getSession().setAttribute(AS_ERROR, form.getErrors());
+			}
 		}
 
 		// returns

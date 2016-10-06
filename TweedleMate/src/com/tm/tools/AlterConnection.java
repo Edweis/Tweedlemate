@@ -22,13 +22,30 @@ public class AlterConnection {
 		AlterConnection.userDao = null;
 	}
 
-	public void RefreshUser() throws ConnectionException {
+	/**
+	 * Put in the database informations that has been changed.
+	 * 
+	 * @throws ConnectionException
+	 *             When there is an error in the User connection
+	 * @throws ConnectionLanguageException
+	 *             when the userDAO is not specified in the AlterConnection
+	 */
+	public void RefreshUser() throws ConnectionLanguageException {
 		User user = (User) request.getSession().getAttribute(AS_USER);
 		String email = user.getEmail();
 		String password = user.getPassword();
 
-		User newUser = userDao.Connect(email, password);
-		request.getSession().setAttribute(AS_USER, newUser);
+		if (userDao != null) {
+			User newUser = null;
+			try {
+				newUser = userDao.Connect(email, password);
+			} catch (ConnectionException e) {
+				throw new ConnectionLanguageException("Refresh user is impossible if no user is connected.");
+			}
+			request.getSession().setAttribute(AS_USER, newUser);
+		} else {
+			throw new ConnectionLanguageException("You should specify the userDAO in AlterConnection");
+		}
 	}
 
 	public void ConnectionQuery(String email, String password) throws ConnectionException {

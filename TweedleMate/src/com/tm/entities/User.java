@@ -34,7 +34,7 @@ public class User {
 	// Asttributes below are not mandatory
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
-	private byte[] Picture;
+	private String PicturePath;
 	private String IntroductionText;
 	private String AppointmentPrice;
 
@@ -94,12 +94,12 @@ public class User {
 		FirstName = firstName;
 	}
 
-	public byte[] getPicture() {
-		return Picture;
+	public String getPicturePath() {
+		return PicturePath;
 	}
 
-	public void setPicture(byte[] picture) {
-		Picture = picture;
+	public void setPicturePath(String picturePath) {
+		PicturePath = picturePath;
 	}
 
 	public String getIntroductionText() {
@@ -152,6 +152,10 @@ public class User {
 
 	public String getProfileURI() {
 		return "/Profile/" + this.getId() + "/" + this.getFirstName();
+	}
+
+	public String getProfilePictureName() {
+		return "pp" + this.getId();
 	}
 
 }
