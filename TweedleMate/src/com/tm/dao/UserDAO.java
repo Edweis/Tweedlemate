@@ -85,6 +85,13 @@ public class UserDAO {
 		return em.createQuery(Q_SELECT_ALL, User.class).getResultList();
 	}
 
+	/**
+	 * Find the user from the Id in the URI parameter.<br/>
+	 * For instance /part1/45/Karo/BoT will return user with id 45
+	 * 
+	 * @param uri
+	 * @return
+	 */
 	public User findFromURI(String uri) {
 		String[] parts = uri.split("/");
 		if (parts.length < 2) {

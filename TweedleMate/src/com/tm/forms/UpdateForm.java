@@ -43,22 +43,44 @@ public abstract class UpdateForm {
 	public final void add(HttpServletRequest request) {
 
 		getAllParameters(request);
-		checkData();
+		if (isFormConcerned(request)) {
 
-		if (getErrors().isEmpty()) {
-			persist(getConnectedUser(request));
+			checkData();
+			if (getErrors().isEmpty()) {
+				persist(getConnectedUser(request));
+			}
+
 		}
 
 	}
 
+	/**
+	 * Inform of the success of the form validation and persistence.
+	 * 
+	 * @return true if the form has been send successfully
+	 */
 	public final boolean isSuccess() {
 		return this.getErrors().isEmpty();
 	}
 
+	/**
+	 * Return a map of all errors in their field name mapped with the error
+	 * message related.<br/>
+	 * This map should be send back to the JSP form page to inform the user of
+	 * the form validation errors.
+	 * 
+	 * @return Map(errorField, errorMessage)
+	 */
 	public final Map<String, String> getErrors() {
 		return errors;
 	}
 
+	/**
+	 * Add an error the the error map
+	 * 
+	 * @param field
+	 * @param message
+	 */
 	protected final void addError(String field, String message) {
 		errors.put(field, message);
 	}
@@ -82,6 +104,24 @@ public abstract class UpdateForm {
 	 */
 	abstract protected void persist(User connectedUser);
 
+	/**
+	 * Return true if the user input enough information to consider the
+	 * form.<br/>
+	 * If not override, the form is considered
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public boolean isFormConcerned(ServletRequest request) {
+		return true;
+	};
+
+	/**
+	 * Get connected user in session.
+	 * 
+	 * @param request
+	 * @return Connected user
+	 */
 	private final User getConnectedUser(HttpServletRequest request) {
 		return ConnectionTools.getUserConnected(request);
 	}

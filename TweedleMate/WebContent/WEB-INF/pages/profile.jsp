@@ -16,7 +16,16 @@
 
 <div id="content">
 <p>
-	Profile de ${shownUser.firstName } avec l'id  ${shownUser.id }
+	Profile de ${shownUser.firstName} avec l'id  ${shownUser.id}<br/>
+	
+<c:choose>
+	<c:when test="${not empty sessionScope.connectedUser }">
+		<a href="<c:url value='MakeAppointment/${shownUser.id }'/>">Make an appointment/contact</a>.
+	</c:when>
+	<c:otherwise>
+		You should be connected to make an appointment.
+	</c:otherwise>
+</c:choose>
 </p>
 </div>
 

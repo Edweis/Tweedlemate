@@ -31,7 +31,7 @@ public class UpdatePicture extends UpdateForm {
 	private static final String F_FILE = "picturePath";
 	private static final int SIZE_BUFFER = 10240; // 10 ko
 	private static final String SAVE_PATH = "D:\\Documents\\Developpement\\git\\Tweedlemate\\TweedleMate\\WebContent"
-			+ "\\WEB-INF\\content\\images\\profile";
+			+ "\\WEB-INF\\content\\images\\profile\\";
 
 	private Part filePart;
 
@@ -122,4 +122,9 @@ public class UpdatePicture extends UpdateForm {
 		connectedUser.setPicturePath(picturePath);
 		userDao.updatePicturePath(connectedUser);
 	}
+
+	// public boolean isFormConcerned(ServletRequest request) {
+	// this.getAllParameters(request);
+	// return getFileName(filePart) != null;
+	// }
 }

@@ -116,13 +116,13 @@ public class UpdateEducationForm extends UpdateForm {
 		try {
 			int i = Integer.parseInt(startYear);
 			if (i > DateTime.now().getYear() + 1) {
-				addError(F_DURATION_MONTH, "You can't add a school you have't been yet.");
+				addError(F_START_YEAR, "You can't add a school you have't been yet.");
 			}
 			if (i <= 1000) {
-				addError(F_DURATION_MONTH, "Incorrect year");
+				addError(F_START_YEAR, "Incorrect year");
 			}
 		} catch (Exception e) {
-			addError(F_DURATION_MONTH, "Incorrect year");
+			addError(F_START_YEAR, "Incorrect year");
 		}
 	}
 
@@ -143,6 +143,12 @@ public class UpdateEducationForm extends UpdateForm {
 			addError(F_COUNTRY_CODE3, "Oh and where was that ?");
 		}
 		return c;
+	}
+
+	@Override
+	public boolean isFormConcerned(ServletRequest request) {
+		getAllParameters(request);
+		return schoolName != null;
 	};
 
 }

@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h3>Chqt with #{shownUser.firstName}</h3>
+	<h4>For the school #{shownUser.myEducation[0]}</h4>
+	<h:form>
+		<fieldset>
+			<LEGEND>New message to #{shownUser.firstName}</LEGEND>
+
+			<h:outputLabel for="titleChat">Chat title</h:outputLabel>
+			<h:inputText id="titleChat" value="#{appointmentHandler.titleChat}"
+				size="50" maxlength="50">
+				<f:ajax event="blur" render="titleChatMessage" />
+			</h:inputText>
+			<h:message id="titleChatMessage" for="titleChat" errorClass="erreur" />
+			<br />
+
+			<h:outputLabel for="newMessage">Message</h:outputLabel>
+			<h:inputTextarea id="newMessage"
+				value="#{appointmentHandler.content}" rows="10" cols="50">
+				<f:ajax event="blur" render="newMessageMessage" />
+			</h:inputTextarea>
+			<h:message id="newMessageMessage" for="newMessage"
+				errorClass="erreur" />
+			<br />
+
+			<h:messages globalOnly="true" infoClass="info" />
+
+			<h:commandButton value="Envoyer"
+				action="#{appointmentHandler.handle}" styleClass="sansLabel">
+				<f:setPropertyActionListener
+					target="#{appointmentHandler.titleAppointment}"
+					value="TileAppointment" />
+				<f:setPropertyActionListener target="#{appointmentHandler.writer}"
+					value="#{connectedUser}" />
+				<f:setPropertyActionListener target="#{appointmentHandler.host}"
+					value="#{shownUser}" />
+				<f:param name="id" value="#{shownUser.id}" />
+			</h:commandButton>
+			<br />
+		</fieldset>
+	</h:form>
+
+
+</ui:composition>

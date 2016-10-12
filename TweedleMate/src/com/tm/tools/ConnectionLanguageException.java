@@ -1,6 +1,6 @@
 package com.tm.tools;
 
-public class ConnectionLanguageException extends RuntimeException {
+public class ConnectionLanguageException extends Exception {
 
 	/**
 	 * 

@@ -19,6 +19,8 @@ import com.tm.dao.UserDAO;
 import com.tm.forms.UpdateEducationForm;
 import com.tm.forms.UpdateForm;
 import com.tm.forms.UpdatePicture;
+import com.tm.tools.ConnectionLanguageException;
+import com.tm.tools.ConnectionTools;
 
 @WebServlet("/UpdateInfo/*")
 @MultipartConfig
@@ -30,7 +32,7 @@ public class UpdateInfo extends HttpServlet {
 	private static final String AS_ERROR = "updateErrors";
 	private static final String AS_RESULT = "updateMessages";
 
-	private Map<String, String> messagesMap = new HashMap<String, String>();
+	private Map<String, String> resultMap = new HashMap<String, String>();
 
 	@EJB
 	private EducationDAO educationDao;
@@ -75,14 +77,22 @@ public class UpdateInfo extends HttpServlet {
 			form.add(request);
 
 			if (form.isSuccess()) {
-				messagesMap.put(form.labelFieldSucess, form.successMessage);
+				resultMap.put(form.labelFieldSucess, form.successMessage);
 			} else {
 				request.getSession().setAttribute(AS_ERROR, form.getErrors());
+			}
+
+			// Refresh User to update informations
+			try {
+				ConnectionTools.AlterConnection(userDao, request).RefreshUser();
+			} catch (ConnectionLanguageException e) {
+				// should never happen becuse the user is connected
+				e.printStackTrace();
 			}
 		}
 
 		// returns
-		request.getSession().setAttribute(AS_RESULT, messagesMap);
+		request.getSession().setAttribute(AS_RESULT, resultMap);
 		response.sendRedirect(request.getContextPath() + VUE_DEFAULT);
 	}
 

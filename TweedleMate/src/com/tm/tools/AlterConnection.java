@@ -48,7 +48,7 @@ public class AlterConnection {
 		}
 	}
 
-	public void ConnectionQuery(String email, String password) throws ConnectionException {
+	public void ConnectionQuery(String email, String password) {
 		User user = userDao.Connect(email, password);
 		if (userDao == null) {
 			throw new ConnectionException("You have to input the user DAO");
@@ -58,5 +58,10 @@ public class AlterConnection {
 
 	public void disconnect() {
 		request.getSession().removeAttribute(AS_USER);
+	}
+
+	public void ConnectionQuery(User createdUser) {
+		this.ConnectionQuery(createdUser.getEmail(), createdUser.getPassword());
+
 	}
 }

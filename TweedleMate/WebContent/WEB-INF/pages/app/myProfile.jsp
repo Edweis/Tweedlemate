@@ -62,7 +62,7 @@
 						</c:choose>
 					</div>
 					<div id="newEducation">
-					TODO : LAISSER OUVERT APRES UNE UNE ERREUR DANS LE TRAITEMENT DU FORMULAIRE 
+					//TODO : LAISSER OUVERT APRES UNE UNE ERREUR DANS LE TRAITEMENT DU FORMULAIRE 
 						<%@ include file="/WEB-INF/inc/forms/newEducation.jsp" %>
 					</div>
 					</li>

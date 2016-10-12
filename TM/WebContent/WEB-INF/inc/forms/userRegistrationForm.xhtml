@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:form>
+		<fieldset>
+			<legend>Inscription</legend>
+			<h:outputLabel for="email">Mail address</h:outputLabel>
+			<h:inputText id="email" value="#{userRegistration.user.email}"
+				required="true" requiredMessage="#{msg['registration.email']}"
+				size="20" maxlength="60">
+				<f:ajax event="blur" render="emailMessage" />
+				<f:validator binding="#{emailExistenceValidator}" />
+			</h:inputText>
+			<h:message id="emailMessage" for="email" errorClass="erreur" />
+			<br />
+
+			<h:outputLabel for="password">Password</h:outputLabel>
+			<h:inputSecret id="password"
+				value="#{userRegistration.user.password}" required="true"
+				requiredMessage="#{msg['registration.password']}" size="20"
+				maxlength="20" binding="#{passwordAtt}">
+				<f:ajax event="blur" render="passwordMessage" />
+			</h:inputSecret>
+			<h:message id="passwordMessage" for="password" errorClass="erreur" />
+			<br />
+
+			<h:outputLabel for="confirmation">Password confirmation</h:outputLabel>
+			<h:inputSecret id="confirmation"
+				value="#{userRegistration.user.password}" required="true"
+				requiredMessage="#{msg['registration.confirmation']}" size="20"
+				maxlength="20">
+				<f:ajax event="blur" execute="password confirmation"
+					render="confirmationMessage passwordMessage" />
+				<f:attribute name="passwordAtt" value="#{passwordAtt}" />
+				<f:validator validatorId="passwordMatchValidator" />
+			</h:inputSecret>
+			<h:message id="confirmationMessage" for="confirmation"
+				errorClass="erreur" />
+			<br />
+
+			<h:outputLabel for="firstName">First Name</h:outputLabel>
+			<h:inputText id="firstName"
+				value="#{userRegistration.user.firstName}" required="true"
+				requiredMessage="#{msg['registration.firstName']}" size="20"
+				maxlength="20">
+				<f:ajax event="blur" render="firstNameMessage" />
+			</h:inputText>
+			<h:message id="firstNameMessage" for="firstName" errorClass="erreur" />
+			<br />
+
+			<h:messages globalOnly="true" infoClass="info" />
+
+			<h:commandButton value="Inscription"
+				action="#{userRegistration.register}" styleClass="sansLabel" />
+			<br />
+		</fieldset>
+	</h:form>
+</ui:composition>

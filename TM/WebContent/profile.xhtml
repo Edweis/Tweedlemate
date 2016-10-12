@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Profile</title>
+	<f:loadBundle basename="com.tm.bundle.messages" var="msg" />
+</h:head>
+<h:body>
+	<ui:include src="/WEB-INF/inc/basic/header.xhtml" />
+
+	<div id="content">
+
+		<ui:param name="shownUser"
+			value="#{userConverter.getAsObject(param['id'])}" />
+		<ui:param name="isMine" value="#{shownUser.id == connectedUser.id}" />
+
+		<h1>Profile page</h1>
+
+		<!-- 		correct id requested, not myself -->
+		<h:panelGroup layout="block"
+			rendered="#{ not empty shownUser and not isMine}">
+			<ui:include src="/WEB-INF/inc/profile/displayProfile.xhtml" />
+		</h:panelGroup>
+
+		<!-- 		connected, correct id requested, myself  -->
+		<h:panelGroup layout="block"
+			rendered="#{not empty connectedUser and not empty shownUser and isMine}">
+			<ui:include src="/WEB-INF/inc/profile/myProfile.xhtml" />
+		</h:panelGroup>
+		
+		<!-- 		not correct id requested -->
+		<h:panelGroup layout="block" rendered="#{empty shownUser}">
+			<h2>Unknown user :/</h2>
+		</h:panelGroup>
+
+		<h:messages globalOnly="true" infoClass="info" />
+	</div>
+
+	<ui:include src="/WEB-INF/inc/basic/footer.xhtml" />
+</h:body>
+</html>

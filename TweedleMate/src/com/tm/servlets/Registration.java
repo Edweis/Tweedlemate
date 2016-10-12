@@ -9,10 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tm.dao.ConnectionException;
 import com.tm.dao.UserDAO;
-import com.tm.entities.User;
 import com.tm.forms.UserRegistrationForm;
+import com.tm.tools.ConnectionTools;
 
 /**
  * Servlet implementation class Inscription
@@ -25,8 +24,6 @@ public class Registration extends HttpServlet {
 
 	private static final String VUE_SUCESS = "/Home";
 	private static final String VUE_FAIL = "/WEB-INF/pages/registration.jsp";
-
-	private static final String PS_USER = "connectedUser";
 
 	@EJB
 	private UserDAO userdao;
@@ -41,16 +38,10 @@ public class Registration extends HttpServlet {
 			throws ServletException, IOException {
 
 		UserRegistrationForm form = new UserRegistrationForm(userdao);
-		User user = form.createUser(request);
+		form.add(request);
 
-		if (form.getErrors().isEmpty()) {
-			// Connection
-			try {
-				request.getSession().setAttribute(PS_USER, userdao.Connect(user.getEmail(), user.getPassword()));
-			} catch (ConnectionException e) {
-				// The connection should not go wrong if the insert went good
-			}
-
+		if (form.isSuccess()) {
+			ConnectionTools.AlterConnection(request).ConnectionQuery(form.getCreatedUser());
 			response.sendRedirect(request.getContextPath() + VUE_SUCESS);
 		} else {
 			// NOK

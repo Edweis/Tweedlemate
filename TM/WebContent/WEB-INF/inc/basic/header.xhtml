@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div id="header">
+		<h2>Header</h2>
+		<div id="connection">
+			<h:panelGroup layout="block" rendered="#{not empty connectedUser}">
+				<p>
+					Hello #{connectedUser.firstName} !
+
+					<h:link action="userConnection.disconnect">Disconnect</h:link>
+				</p>
+				<h:link outcome="profile.xhtml">
+					<f:param name="id" value="#{connectedUser.id}" />My Profile</h:link> 
+					-  
+				<h:link outcome="appointment.xhtml">
+					<f:param name="id" value="#{connectedUser.id}" />My Appointements</h:link>
+
+			</h:panelGroup>
+			<ui:include src="/WEB-INF/inc/forms/userConnectionForm.xhtml" />
+		</div>
+		
+		<br />
+		
+		<div id="menu">
+			<h:link value="Home" outcome="/home.xhtml" />
+			-
+			<h:link value="Registration" outcome="/registration.xhtml" />
+			-
+		</div>
+	</div>
+</ui:composition>

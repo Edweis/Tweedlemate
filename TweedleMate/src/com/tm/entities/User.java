@@ -13,6 +13,9 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.Converter;
@@ -26,9 +29,15 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-
+	@NotNull(message = "Please insert an email address")
+	@Pattern(regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)", message = "Please select a valide mail address")
 	private String Email;
+	@NotNull(message = "Please insert an password")
+	@Size(min = 5, message = "Your password should have at least 5 characters")
 	private String Password;
+	@NotNull(message = "Please insert an first name")
+	@Size(min = 2, message = "Your name should have at least 2 characters")
+	@Pattern(regexp = "[^\\s-]", message = "Your first name should be in one word")
 	private String FirstName;
 
 	// Asttributes below are not mandatory
@@ -150,12 +159,15 @@ public class User {
 		Contact = contact;
 	}
 
-	public String getProfileURI() {
-		return "/Profile/" + this.getId() + "/" + this.getFirstName();
-	}
-
 	public String getProfilePictureName() {
 		return "pp" + this.getId();
 	}
 
+	public String getProfileURI() {
+		return "/Profile/" + this.getId() + "/" + this.getFirstName();
+	}
+
+	public String getAppointmentURI() {
+		return "/Appointment/" + this.getId() + "/" + this.getFirstName();
+	}
 }

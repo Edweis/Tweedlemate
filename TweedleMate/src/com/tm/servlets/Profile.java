@@ -27,7 +27,7 @@ public class Profile extends HttpServlet {
 
 	private static final String VUE_PERSO = "/WEB-INF/pages/app/myProfile.jsp";
 	private static final String VUE = "/WEB-INF/pages/profile.jsp";
-	private static final String VUE_ERROR = "/WEB-INF/pages/profileError.jsp";
+	private static final String VUE_ERROR = "/WEB-INF/pages/errors/profileError.jsp";
 
 	private static final String A_LISTCOUNTRIES = "countries";
 	private static final String A_SHOWN_USER = "shownUser";

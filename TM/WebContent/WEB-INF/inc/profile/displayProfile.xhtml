@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h2>
+		#{shownUser.firstName}
+	</h2>
+	<p>
+		Email : #{shownUser.email}
+		<h:link outcome="appointment.xhtml">
+			<f:param name="id" value="#{shownUser.id}" />Make an appointment with that guy
+				</h:link>
+	</p>
+
+	<p>Here is his education :
+	<ul>
+		<h:outputText rendered="#{empty shownUser.myEducation}"
+			value="No education yet" />
+		<ui:repeat value="#{shownUser.myEducation}" var="e">
+			<li>He has been to <b>#{e.school.name} !</b></li>
+		</ui:repeat>
+	</ul>
+	</p>
+
+	<p>
+		Introduction text :
+		<h:outputText rendered="#{empty shownUser.introductionText}"
+			value="No text yet" />
+		<h:outputText rendered="#{not empty shownUser.introductionText}"
+			value="#{shownUser.introductionText}" />
+	</p>
+
+	<p>
+		Price :
+		<h:outputText rendered="#{empty shownUser.appointmentPrice}"
+			value="No text yet" />
+		<h:outputText rendered="#{not empty shownUser.appointmentPrice}"
+			value="#{shownUser.appointmentPrice}" />
+	</p>
+</ui:composition>

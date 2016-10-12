@@ -22,7 +22,7 @@ public class Home extends HttpServlet {
 
 	private static final String A_ALL_USER = "allUsers";
 
-	private static final String VUE = "/WEB-INF/pages/home.jsp";
+	private static final String VUE = "/WEB-INF/pages/faces/home";
 
 	@EJB
 	UserDAO userDao;
