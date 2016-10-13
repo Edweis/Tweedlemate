@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Education {
@@ -27,6 +28,9 @@ public class Education {
 	private String Scholarship;
 	private Boolean IsHomeUniversity;
 	private Boolean IsCurrentEducation;
+	@Pattern(regexp = "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)", message = "Please select a valide mail address")
+	private String VerifEmail;
+	private Boolean IsEmailVerified;
 
 	@Override
 	public String toString() {
@@ -43,6 +47,14 @@ public class Education {
 
 	public void setId(Long id) {
 		Id = id;
+	}
+
+	public User getUser() {
+		return User;
+	}
+
+	public void setUser(User user) {
+		User = user;
 	}
 
 	public School getSchool() {
@@ -109,12 +121,20 @@ public class Education {
 		IsCurrentEducation = isCurrentEducation;
 	}
 
-	public User getUser() {
-		return User;
+	public String getVerifEmail() {
+		return VerifEmail;
 	}
 
-	public void setUser(User user) {
-		User = user;
+	public void setVerifEmail(String verifEmail) {
+		VerifEmail = verifEmail;
+	}
+
+	public Boolean getIsEmailVerified() {
+		return IsEmailVerified;
+	}
+
+	public void setIsEmailVerified(Boolean isEmailVerified) {
+		IsEmailVerified = isEmailVerified;
 	}
 
 }

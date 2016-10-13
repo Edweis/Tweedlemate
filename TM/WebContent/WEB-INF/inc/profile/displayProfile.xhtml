@@ -1,16 +1,19 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 	<h2>
 		#{shownUser.firstName}
+		<h:outputText rendered="#{isMine}" value="(It is u)" />
 	</h2>
 	<p>
-		Email : #{shownUser.email}
-		<h:link outcome="appointment.xhtml">
-			<f:param name="id" value="#{shownUser.id}" />Make an appointment with that guy
-				</h:link>
+		Email Login : #{shownUser.email}<br />
+		First name : #{shownUser.firstName}<br />
+		<h:link outcome="appointment.xhtml" value="Make an appointment with that guy">
+			<f:param name="id" value="#{shownUser.id}" />
+		</h:link><br/>
 	</p>
 
 	<p>Here is his education :
@@ -18,8 +21,111 @@
 		<h:outputText rendered="#{empty shownUser.myEducation}"
 			value="No education yet" />
 		<ui:repeat value="#{shownUser.myEducation}" var="e">
-			<li>He has been to <b>#{e.school.name} !</b></li>
+			<li id="#{e.id}">
+			<div style="width: 300px; float: left; border-style: solid; border-width: 1px;" >
+				School Name : #{e.school.name}<br/>
+				School country : #{e.school.country.name}<br/>
+				Time spent : #{e.durationMonth}<br/>
+				Start Year : #{e.startYear}<br/>
+				Promotion : #{e.promotion}<br/>
+				Major : #{e.major}<br/>
+				Scholarship : #{e.scholarship}<br/>
+				Is home university ? #{e.isHomeUniversity}<br/>
+				Is current school ? #{e.isCurrentEducation}<br/>
+				Verification email : #{e.verifEmail}<br/>
+				Has it been verified ? #{e.isEmailVerified}<br/>
+			</div>
+			</li>
 		</ui:repeat>
+		<div style="width: 200px;  border-style: solid; border-width: 1px;">
+			<h:outputLabel for="nameSchool">*School Name :</h:outputLabel>
+			<h:inputText id="nameSchool" value="#{addEducation.edu.school.name}"
+			required="true" requiredMessage="This field is required" maxlength="45">
+				<f:ajax event="blur" render="nameSchoolMessage" />
+			</h:inputText>
+			<h:message id="nameSchoolMessage" for="nameSchool" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="country">*School country :</h:outputLabel>
+			<h:selectOneListbox id="country" value="#{addEducation.edu.school.country}"
+			required="true" requiredMessage="This field is required" maxlength="45">
+			
+<!-- 				<c:foreach items="#{profileTools.getAllCountries()}" var="c"> -->
+<!-- 					<f:selectItem itemValue="#{c.code3}" itemLabel="#{c.name}" /> -->
+<!-- 				</c:foreach> -->
+				<f:ajax event="blur" render="countryMessage" />
+			</h:selectOneListbox>
+			<h:message id="countryMessage" for="country" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="duration">Time spent :</h:outputLabel>
+			<h:inputText id="duration" value="#{addEducation.edu.durationMonth}"
+			maxlength="45">
+				<f:ajax event="blur" render="durationMessage" />
+			</h:inputText>
+			<h:message id="durationMessage" for="duration" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="startYear">Start Year :</h:outputLabel>
+			<h:inputText id="startYear" value="#{addEducation.edu.startYear}"
+			maxlength="45">
+				<f:ajax event="blur" render="startYearMessage" />
+			</h:inputText>
+			<h:message id="startYearMessage" for="startYear" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="promotion">Promotion :</h:outputLabel>
+			<h:inputText id="promotion" value="#{addEducation.edu.promotion}"
+			maxlength="45">
+				<f:ajax event="blur" render="promotionMessage" />
+			</h:inputText>
+			<h:message id="promotionMessage" for="promotion" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="major">Major :</h:outputLabel>
+			<h:inputText id="major" value="#{addEducation.edu.major}"
+			maxlength="45">
+				<f:ajax event="blur" render="majorMessage" />
+			</h:inputText>
+			<h:message id="majorMessage" for="major" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="scolarship">Scholarship :</h:outputLabel>
+			<h:inputText id="scolarship" value="#{addEducation.edu.scholarship}"
+			maxlength="45">
+				<f:ajax event="blur" render="scolarshipMessage" />
+			</h:inputText>
+			<h:message id="scolarshipMessage" for="scolarship" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="homeUniv">Is home university ?</h:outputLabel>
+			<h:selectBooleanCheckbox id="homeUniv" value="#{addEducation.edu.isHomeUniversity}"
+			maxlength="45"/>
+			<h:message id="homeUnivMessage" for="homeUniv" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="currentSchool">Is current school ?</h:outputLabel>
+			<h:selectBooleanCheckbox id="currentSchool" value="#{addEducation.edu.isCurrentEducation}"
+			maxlength="45"/>
+			<h:message id="currentSchoolMessage" for="currentSchool" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="verifEmail">Verification verifEmail</h:outputLabel>
+			<h:inputText id="verifEmail" value="#{addEducation.edu.verifEmail}"
+			maxlength="45">
+				<f:ajax event="blur" render="verifEmailMessage" />
+			</h:inputText>
+			<h:message id="verifEmailMessage" for="verifEmail" errorClass="erreur" />
+			<br />
+			
+			<h:outputLabel for="verified">Has it been verified ?</h:outputLabel>
+			<h:selectBooleanCheckbox id="verified" value="#{addEducation.edu.isEmailVerified}"
+			maxlength="45"/>
+			<h:message id="verifiedMessage" for="verified" errorClass="erreur" />
+			<br />
+			
+		</div>
+		<h:commandButton value="Add a new school"/>
 	</ul>
 	</p>
 

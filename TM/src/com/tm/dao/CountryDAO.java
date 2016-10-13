@@ -18,6 +18,7 @@ public class CountryDAO {
 	private static final String Q_SELECT_FROM_NAME = "SELECT u FROM Country u WHERE u.Name = ?1";
 	private static final String Q_SELECT_FROM_CODE2 = "SELECT u FROM Country u WHERE u.Code2 = ?1";
 	private static final String Q_SELECT_FROM_CODE3 = "SELECT u FROM Country u WHERE u.Code3 = ?1";
+	private static final String Q_SELECT_ALL = "SELECT u FROM Country u";
 
 	/**
 	 * Find a country from its name
@@ -53,8 +54,7 @@ public class CountryDAO {
 	}
 
 	public List<Country> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.em.createQuery(Q_SELECT_ALL, Country.class).getResultList();
 	}
 
 	public Country getFromId(Long id) {
