@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Profile</title>
+	<f:loadBundle basename="com.tm.bundle.messages" var="msg" />
+	<f:metadata>
+		<f:viewParam name="id" value="#{profileTools.shownUser}"
+			converter="#{userConverter}"
+			converterMessage="Bad request. Unknown user."/>
+	</f:metadata>
+</h:head>
+<h:body>
+	<ui:include src="/WEB-INF/inc/basic/header.xhtml" />
+
+	<div id="content">
+		<ui:param name="shownUser" value="#{profileTools.shownUser}" />
+		<ui:param name="isMine" value="#{shownUser.id == login.user.id}" />
+
+		<h1>Profile page</h1>
+
+		<!-- 		correct id requested, not myself -->
+		<b:container rendered="#{not empty shownUser}">
+			<ui:include src="/WEB-INF/inc/profile/displayProfile2.xhtml" />
+		</b:container>
+
+		<h:panelGroup layout="block" rendered="#{empty shownUser}">
+			<h2>Unknown user :/</h2>
+		</h:panelGroup>
+
+		<p:messages globalOnly="true" infoClass="info" />
+	</div>
+
+	<ui:include src="/WEB-INF/inc/basic/footer.xhtml" />
+</h:body>
+</html>

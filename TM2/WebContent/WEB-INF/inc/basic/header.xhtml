@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+	<b:container id="header">
+		<p:growl id="growlPassword" showDetail="true" sticky="true"
+			for="password" rendered="{noy login.is}" />
+		<div id="menu">
+			<b:navBar brand="Tweedle Mate" brandHref="home.xhtml">
+				<b:navbarLinks>
+					<b:navLink value="Home" outcome="home.xhtml"></b:navLink>
+					<b:navLink value="Link" outcome="home.xhtml"></b:navLink>
+					<b:navLink value="Link" outcome="home.xhtml"></b:navLink>
+				</b:navbarLinks>
+				<h:form
+					class="navbar-form navbar-left hidden-md hidden-sm hidden-xs"
+					role="search">
+					<b:inputText placeholder="Search" />
+					<b:commandButton  value="" iconAwesome="search" />
+				</h:form>
+				<!-- Following line is needed for TBS 3.0.1 (panel content overflow issue) -->
+				<b:navbarLinks pull="right">
+					<b:navLink value="    " href="#"></b:navLink>
+				</b:navbarLinks>
+				<b:navbarLinks class="navbar-form" pull="right"
+					rendered="#{not login.is}">
+					<b:button value="Sign up" look="danger"
+						onclick="PF('sgnup').show();" />
+					<b:button value="Sign in" look="warning" outcome="signin.xhtml" />
+				</b:navbarLinks>
+				<b:navbarLinks pull="right" styleClass="hidden-xs"
+					rendered="#{login.is}">
+					<b:dropMenu value="Hello #{login.user.firstName}">
+						<b:navLink header="What are you up to ?"></b:navLink>
+						<b:navLink value="My Profile" outcome="profile.xhtml">
+							<f:param name="id" value="#{login.user.id}" />
+						</b:navLink>
+						<b:navLink value="My Appointments" outcome="appointment.xhtml">
+							<f:param name="id" value="#{login.user.id}" />
+						</b:navLink>
+						<b:navLink value="My Messages" outcome="chat.xhtml">
+							<f:param name="id" value="#{login.user.id}" />
+						</b:navLink>
+						<b:navLink></b:navLink>
+						<b:navLink value="Disconnect" outcome="#" />
+					</b:dropMenu>
+					<b:navLink value="MSG[0]" href="#" />
+					<b:navLink value="RDV[0]" href="#" />
+				</b:navbarLinks>
+			</b:navBar>
+		</div>
+		<p:dialog header="Sign Up" widgetVar="sgnup" modal="true" rendered="#{not login.is}">
+			<ui:include src="/WEB-INF/inc/sign/signupContent.xhtml" />
+		</p:dialog>
+		<p:dialog header="Sign In" widgetVar="sgnin" modal="true" rendered="#{not login.is}">
+			<ui:include src="/WEB-INF/inc/sign/signinContent.xhtml" />
+		</p:dialog>
+	</b:container>
+
+</ui:composition>
+

@@ -18,7 +18,7 @@ public class UserDAO {
 	private static final String Q_UPDATE_PICTURE_PATH = "UPDATE User u SET u.PicturePath=?1 WHERE u.Id=?2";
 
 	// Manager injection
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	/**

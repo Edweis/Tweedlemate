@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+	<b:row>
+		<h3>#{shownUser.firstName}</h3>
+	</b:row>
+	<b:row>
+		<b:column col-md="4">
+			From : 
+		</b:column>
+		<b:column col-md="4">
+			France !
+		</b:column>
+	</b:row>
+	<b:row>
+		<b:column col-md="4">
+			Rating : 
+		</b:column>
+		<b:column col-md="4">
+			Eagle
+		</b:column>
+	</b:row>
+	<b:row>
+		<b:button value="Chat" />
+	</b:row>
+	<b:row>
+		<b:button value="Set an appointment" />
+	</b:row>
+	<b:row>
+		<b:button value="Set contact information" type="button" href="#"
+			onclick="PF('ctc').show();" rendered="#{isMine}" />
+	</b:row>
+	<p:dialog header="My contact information" widgetVar="ctc" modal="true"
+		closeOnEscape="true" draggable="false" minimizable="false"
+		resizable="false" height="300" width="400">
+		<h:form>
+			<h:outputText value="you have no contact information for now"
+				rendered="#{empty login.user.myContactsInfo}" />
+			<ui:repeat value="#{login.user.myContactsInfo}" var="c">
+				<b:row>
+				#{c.type} : #{c.value}
+				<b:commandButton value="delete" look="danger"
+						action="#{profileTools.deleteContact(c.id)}" immediate="true" update="@form" ajax="true"/>
+				</b:row>
+			</ui:repeat>
+			<b:inputText placeholder="type (Skype, email..)"
+				value="#{profileTools.contact.type}" maxlength="45" />
+			<b:inputText placeholder="value (me@gmail.com...)"
+				value="#{profileTools.contact.value}" maxlength="45" />
+			<b:commandButton value="add" look="primary"
+				action="#{profileTools.addContact()}" update="@form" />
+				<b:messages/>
+		</h:form>
+
+	</p:dialog>
+</ui:composition>

@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form id="signup">
+		<b:message for="password" />
+		<b:inputText placeholder="Email Address" id="email"
+			value="#{login.user.email}" size="20" maxlength="60" />
+		<b:inputSecret placeholder="Password" id="password"
+			value="#{login.user.password}" size="20" maxlength="20" />
+		<b:commandButton value="Sign up" look="primary"
+			action="#{login.connect}" ajax="false" icon="ui-icon-check">
+			<f:param name="id" value="#{shownUser.id}" />
+		</b:commandButton>
+					or
+				<b:button value="Sign in" look="warning" outcome="signin.xhtml" />
+	</h:form>
+
+
+</ui:composition>

@@ -9,7 +9,7 @@ import com.tm.entities.Education;
 @Stateless
 public class EducationDAO {
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	public void create(Education education) throws DAOException {

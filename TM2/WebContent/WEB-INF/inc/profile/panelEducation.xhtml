@@ -1,0 +1,129 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="educationForm">
+		<ui:repeat value="#{shownUser.myEducation}" var="e">
+			<b:row>
+				<b:column col-md="8">
+					<b:row>
+						<h4>School Name : #{e.school.name}</h4>
+					</b:row>
+					<b:row>School country : #{e.school.country.name}</b:row>
+					<b:row>Time spent : #{e.durationMonth}</b:row>
+					<b:row>Start Year : #{e.startYear}</b:row>
+					<b:row>Promotion : #{e.promotion}</b:row>
+					<b:row>Major : #{e.major}</b:row>
+					<b:row>Is home university ? #{e.isHomeUniversity}</b:row>
+					<b:row>Is current school ? #{e.isCurrentEducation}</b:row>
+					<b:row>Verification email : #{e.verifEmail}</b:row>
+					<b:row>Has it been verified ? #{e.isEmailVerified}</b:row>
+				</b:column>
+
+				<b:column col-md="4" rendered="#{isMine}">
+					<b:commandButton value="Edit" look="warning"
+						action="#{educationManager.editNew(e.id)}"
+						disabled="#{educationManager.enableEditor}" update="@form" />
+					<b:commandButton value="Delete" look="danger"
+						disabled="#{educationManager.enableEditor}"
+						action="#{educationManager.remove(e.id)}" update="@form"
+						ajax="false" />
+				</b:column>
+			</b:row>
+		</ui:repeat>
+		<b:row id="editorEducation">
+			<b:row rendered="#{educationManager.enableEditor}">
+				<b:panelGrid columns="3">
+					<p:outputLabel for="nameSchool" value="*School Name :" />
+					<p:autoComplete id="nameSchool" required="true"
+						requiredMessage="This field is required"
+						value="#{educationManager.edu.school.name}"
+						completeMethod="#{autoComplete.allSchools}" />
+					<b:message id="nameSchoolMessage" for="nameSchool"
+						errorClass="erreur" />
+
+					<p:outputLabel for="country" value="*School country :" />
+					<b:selectOneMenu id="country"
+						value="#{educationManager.edu.school.country}" required="true"
+						requiredMessage="This field is required" maxlength="45">
+						<f:ajax event="blur" render="countryMessage" />
+						<f:converter binding="#{countryConverter}" />
+						<f:selectItem itemLabel="Select a country" itemValue="#{null}" />
+						<f:selectItems value="#{autoComplete.getAllCountries()}" var="c"
+							itemValue="#{c}" itemLabel="#{c.name}" />
+					</b:selectOneMenu>
+					<b:message id="countryMessage" for="country" errorClass="erreur" />
+
+					<p:outputLabel for="duration">Time spent :</p:outputLabel>
+					<b:inputText id="duration"
+						value="#{educationManager.edu.durationMonth}" maxlength="45">
+						<f:ajax event="blur" render="durationMessage" />
+					</b:inputText>
+					<b:message id="durationMessage" for="duration" errorClass="erreur" />
+
+					<p:outputLabel for="startYear">Start Year :</p:outputLabel>
+					<b:inputText id="startYear"
+						value="#{educationManager.edu.startYear}" maxlength="45">
+						<f:ajax event="blur" render="startYearMessage" />
+					</b:inputText>
+					<b:message id="startYearMessage" for="startYear"
+						errorClass="erreur" />
+
+					<p:outputLabel for="promotion">Promotion :</p:outputLabel>
+					<b:inputText id="promotion"
+						value="#{educationManager.edu.promotion}" maxlength="45">
+						<f:ajax event="blur" render="promotionMessage" />
+					</b:inputText>
+					<b:message id="promotionMessage" for="promotion"
+						errorClass="erreur" />
+
+					<p:outputLabel for="major">Major :</p:outputLabel>
+					<b:inputText id="major" value="#{educationManager.edu.major}"
+						maxlength="45">
+						<f:ajax event="blur" render="majorMessage" />
+					</b:inputText>
+					<b:message id="majorMessage" for="major" errorClass="erreur" />
+
+					<p:outputLabel for="homeUniv">Is home university ?</p:outputLabel>
+					<p:selectBooleanCheckbox id="homeUniv"
+						value="#{educationManager.edu.isHomeUniversity}" maxlength="45" />
+					<b:message id="homeUnivMessage" for="homeUniv" errorClass="erreur" />
+
+					<p:outputLabel for="currentSchool">Is current school ?</p:outputLabel>
+					<p:selectBooleanCheckbox id="currentSchool"
+						value="#{educationManager.edu.isCurrentEducation}" />
+					<b:message id="currentSchoolMessage" for="currentSchool"
+						errorClass="erreur" />
+
+					<p:outputLabel for="verifEmail">Verification email</p:outputLabel>
+					<b:inputText id="verifEmail"
+						value="#{educationManager.edu.verifEmail}">
+						<f:ajax event="blur" render="verifEmailMessage" />
+					</b:inputText>
+					<b:message id="verifEmailMessage" for="verifEmail"
+						errorClass="erreur" />
+				</b:panelGrid>
+			</b:row>
+			<b:row>
+				<b:commandButton value="Add #{(empty shownUser.myEducation)?'your first':'a new'} school" look="primary"
+					rendered="#{not educationManager.enableEditor and isMine}"
+					action="#{educationManager.editNew}" update="@form" />
+
+				<b:commandButton value="Add" look="primary"
+					rendered="#{educationManager.enableEditor and isMine}"
+					action="#{educationManager.add}" update="@form" ajax="false">
+					<f:setPropertyActionListener value="#{login.user}" target="#{educationManager.edu.user}"/>
+				</b:commandButton>
+				
+				<b:commandButton value="Cancel" look="warning"
+					rendered="#{educationManager.enableEditor and isMine}"
+					action="#{educationManager.cancel}" update="@form" ajax="true">
+				</b:commandButton>
+				<b:messages id="answers" />
+			</b:row>
+		</b:row>
+	</h:form>
+
+</ui:composition>

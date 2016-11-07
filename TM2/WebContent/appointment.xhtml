@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>New Appointment</title>
+	<f:loadBundle basename="com.tm.bundle.messages" var="msg" />
+	<f:metadata>
+		<f:viewParam name="id" value="#{appointmentTools.shownUser}"
+			converter="#{userConverter}"
+			converterMessage="Bad request. Unknown user." />
+	</f:metadata>
+
+</h:head>
+<h:body>
+	<ui:include src="/WEB-INF/inc/basic/header.xhtml" />
+
+	<div id="content">
+		<ui:param name="shownUser" value="#{appointmentTools.shownUser}" />
+		<ui:param name="isMine" value="#{shownUser.id == login.user.id}" />
+
+		<h1>Appointment page</h1>
+
+		<b:container rendered="#{login.is and not empty shownUser}">
+			<ui:include src="/WEB-INF/inc/appointment/chat.xhtml" />
+		</b:container>
+
+		<!-- 		not correct id requested -->
+		<b:container rendered="#{empty shownUser and login.is}">
+			<h2>Unknown user :/</h2>
+		</b:container>
+
+		<!-- 		not correct id requested -->
+		<b:container rendered="#{not login.is}">
+			<h2>You should be connected to access this page</h2>
+		</b:container>
+
+		<p:messages globalOnly="true" infoClass="info" />
+	</div>
+
+	<ui:include src="/WEB-INF/inc/basic/footer.xhtml" />
+</h:body>
+</html>

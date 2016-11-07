@@ -11,7 +11,7 @@ import com.tm.entities.Message;
 @Stateless
 public class MessageDAO {
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	public void create(Message object) {

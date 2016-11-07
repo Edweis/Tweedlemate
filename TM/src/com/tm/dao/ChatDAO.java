@@ -11,7 +11,7 @@ import com.tm.entities.Chat;
 @Stateless
 public class ChatDAO {
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	public void create(Chat object) {

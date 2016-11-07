@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+	<b:row id="pictureSpace">
+		<b:image value="#{shownUser.getImage()}"
+			tooltip="#{shownUser.firstName}" style="height:10em;" />
+		<b:row rendered="#{isMine}">
+			<h:form enctype="multipart/form-data">
+				<p:fileUpload fileUploadListener="#{profileTools.changePic}"
+					auto="true" update="pictureSpace" sizeLimit="1000000"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" skinSimple="true" />
+
+				<b:commandButton value="Reset profile pic" look="danger"
+					update="@form" action="#{profileTools.resetPic}" />
+				<b:messages />
+			</h:form>
+		</b:row>
+	</b:row>
+	<b:row id="ITSpace">
+		<b:row id="displayIT" rendered="#{not profileTools.enableIT}">
+			<b:row>#{shownUser.introductionText}</b:row>
+
+		</b:row>
+		<b:row id="editIT" rendered="#{isMine}">
+			<h:form>
+				<b:row rendered="#{not profileTools.enableIT}">
+					<b:commandButton value="Edit" look="warning" update="ITSpace"
+						action="#{profileTools.enableEditIT}" />
+				</b:row>
+				<b:row rendered="#{profileTools.enableIT}">
+					<b:inputTextarea title="Change your introduction text"
+						value="#{login.user.introductionText}" />
+					<b:commandButton value="Change" look="warning" update="ITSpace"
+						action="#{profileTools.changeIT}" />
+					<b:commandButton value="Cancel" look="danger" update="ITSpace"
+						action="#{profileTools.cancelIT}" />
+				</b:row>
+			</h:form>
+		</b:row>
+	</b:row>
+
+
+
+</ui:composition>

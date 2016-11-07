@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="experienceForm">
+		<ui:repeat value="#{shownUser.myExperience}" var="e">
+			<b:row>
+				<b:column col-md="8">
+					<b:row>
+						<h4>Experience Name : #{e.name}</h4>
+					</b:row>
+					<b:row>Duration : #{e.duration}</b:row>
+					<b:row>Details : #{e.details}</b:row>
+				</b:column>
+
+				<b:column col-md="4" rendered="#{isMine}">
+					<b:commandButton value="Edit" look="warning"
+						action="#{experienceManager.editNew(e.id)}"
+						disabled="#{experienceManager.enableEditor}" update="@form" />
+					<b:commandButton value="Delete" look="danger"
+						disabled="#{experienceManager.enableEditor}"
+						action="#{experienceManager.remove(e.id)}" update="@form"
+						ajax="false" />
+				</b:column>
+			</b:row>
+		</ui:repeat>
+		<b:row id="editorExperience">
+			<b:row rendered="#{experienceManager.enableEditor}">
+				<b:panelGrid columns="3">
+					<p:outputLabel for="experinceName">Experience Name :</p:outputLabel>
+					<b:inputText id="experinceName"
+						value="#{experienceManager.exp.name}" maxlength="45">
+						<f:ajax event="blur" render="experinceNameMessage" />
+					</b:inputText>
+					<b:message id="experinceNameMessage" for="experinceName" errorClass="erreur" />
+
+					<p:outputLabel for="duration">Duration :</p:outputLabel>
+					<b:inputText id="duration"
+						value="#{experienceManager.exp.duration}" maxlength="45">
+						<f:ajax event="blur" render="durationMessage" />
+					</b:inputText>
+					<b:message id="durationMessage" for="duration"
+						errorClass="erreur" />
+
+					<p:outputLabel for="details">Details :</p:outputLabel>
+					<b:inputText id="details"
+						value="#{experienceManager.exp.details}" maxlength="45">
+						<f:ajax event="blur" render="detailsMessage" />
+					</b:inputText>
+					<b:message id="detailsMessage" for="details"
+						errorClass="erreur" />
+				</b:panelGrid>
+			</b:row>
+			<b:row>
+				<b:commandButton value="Add #{(empty shownUser.myExperience)?'your first':'a new'} experience" look="primary"
+					rendered="#{not experienceManager.enableEditor and isMine}"
+					action="#{experienceManager.editNew}" update="@form" />
+
+				<b:commandButton value="Add" look="primary"
+					rendered="#{experienceManager.enableEditor and isMine}"
+					action="#{experienceManager.add}" update="@form" ajax="false">
+					<f:setPropertyActionListener value="#{login.user}" target="#{experienceManager.exp.user}"/>
+				</b:commandButton>
+				
+				<b:commandButton value="Cancel" look="warning"
+					rendered="#{experienceManager.enableEditor and isMine}"
+					action="#{experienceManager.cancel}" update="@form" ajax="true">
+				</b:commandButton>
+			</b:row>
+		</b:row>
+	</h:form>
+
+</ui:composition>

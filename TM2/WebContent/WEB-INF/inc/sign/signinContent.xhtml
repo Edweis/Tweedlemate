@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form id="signin" rendered="#{not login.is}">
+		<b:row>
+			<h:outputLabel for="email">*Mail address</h:outputLabel>
+			<b:inputText id="email" value="#{userRegistration.user.email}"
+				size="20" maxlength="60">
+				<f:ajax event="blur" render="emailMessage" />
+				<f:validator binding="#{emailExistenceValidator}" />
+			</b:inputText>
+			<b:message id="emailMessage" for="email" errorClass="erreur" />
+		</b:row>
+
+		<b:row>
+			<h:outputLabel for="password">*Password</h:outputLabel>
+			<b:inputSecret id="password"
+				value="#{userRegistration.user.password}" size="20" maxlength="20"
+				binding="#{passwordAtt}">
+				<f:ajax event="blur" render="passwordMessage" />
+			</b:inputSecret>
+			<p:message id="passwordMessage" for="password" errorClass="erreur" />
+		</b:row>
+		<b:row>
+			<h:outputLabel for="confirmation">*Password confirmation</h:outputLabel>
+			<b:inputSecret id="confirmation"
+				value="#{userRegistration.user.password}" size="20" maxlength="20">
+				<f:ajax event="blur" execute="password confirmation"
+					render="confirmationMessage passwordMessage" />
+				<f:attribute name="passwordAtt" value="#{passwordAtt}" />
+				<f:validator validatorId="passwordMatchValidator" />
+			</b:inputSecret>
+			<b:message id="confirmationMessage" for="confirmation"
+				errorClass="erreur" />
+		</b:row>
+		<b:row>
+			<h:outputLabel for="firstName">*First Name</h:outputLabel>
+			<b:inputText id="firstName"
+				value="#{userRegistration.user.firstName}" size="20" maxlength="20">
+				<f:ajax event="blur" render="firstNameMessage" />
+			</b:inputText>
+			<b:message id="firstNameMessage" for="firstName" errorClass="erreur" />
+		</b:row>
+		<b:row>
+			<h:outputLabel for="school">School name</h:outputLabel>
+			<p:autoComplete id="school" value="#{userRegistration.school.name}"
+				completeMethod="#{autoComplete.allSchools}" />
+			<b:message id="schoolMessage" for="school" errorClass="erreur" />
+		</b:row>
+
+		<b:row>
+			<h:outputLabel for="country">Where ?</h:outputLabel>
+			<b:selectOneMenu id="country"
+				value="#{userRegistration.school.country}" maxlength="45">
+				<f:converter binding="#{countryConverter}" />
+				<f:ajax event="blur" render="countryMessage" />
+				<f:selectItems value="#{autoComplete.getAllCountries()}" var="c"
+					itemValue="#{c}" itemLabel="#{c.name}" />
+			</b:selectOneMenu>
+			<b:message id="countryMessage" for="country" errorClass="erreur" />
+		</b:row>
+
+
+		<b:row>
+			<b:messages globalOnly="true" infoClass="info" />
+
+			<b:commandButton value="Inscription" styleClass="sansLabel">
+				<f:actionListener binding="#{userRegistration.register()}" />
+				<f:actionListener binding="#{login.connect()}" />
+			</b:commandButton>
+		</b:row>
+	</h:form>
+	<b:row rendered="#{login.is}">
+		<b:row>
+			<h3>You should disconnect before create a new profile.</h3>
+		</b:row>
+		<b:row>
+			<h:commandLink action="#{login.disconnect}" target="_blank"
+				value="Disconnect" />
+		</b:row>
+	</b:row>
+
+</ui:composition>

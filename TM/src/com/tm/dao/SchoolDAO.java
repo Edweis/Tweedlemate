@@ -11,7 +11,7 @@ import com.tm.entities.School;
 @Stateless
 public class SchoolDAO {
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	public void create(School object) {

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sign In</title>
+	<f:loadBundle basename="com.tm.bundle.messages" var="msg" />
+</h:head>
+<h:body>
+	<ui:include src="/WEB-INF/inc/basic/header.xhtml" />
+
+	<div id="content">
+		<b:container>
+			<b:panel title="Sign Up">
+				<h:form>
+					<b:row>
+						<b:inputText placeholder="Email Address" id="email"
+							value="#{login.user.email}" binding="#{emailAtt}" required="true"
+							size="20" maxlength="20" col-md="3" />
+					</b:row>
+					<b:row>
+						<b:inputSecret placeholder="Password" id="password"
+							value="#{login.user.password}" required="true" size="20"
+							maxlength="20" col-md="3">
+						</b:inputSecret>
+					</b:row>
+					<b:row>
+						<b:commandButton value="Sign up" look="primary"
+							action="#{login.connect}" ajax="false" icon="ui-icon-check"
+							col-md="3" />
+						<b:messages globalOnly="true" infoClass="info" col-md="3" />
+					</b:row>
+					<b:row>
+						<b:button value="No account ? Sign in !" look="warning"
+							outcome="signin.xhtml" col-md="3" />
+					</b:row>
+				</h:form>
+			</b:panel>
+		</b:container>
+	</div>
+
+	<ui:include src="/WEB-INF/inc/basic/footer.xhtml" />
+</h:body>
+</html>

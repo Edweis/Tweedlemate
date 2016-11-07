@@ -11,7 +11,7 @@ import com.tm.entities.Planning;
 @Stateless
 public class PlanningtDAO {
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	public void create(Planning object) {

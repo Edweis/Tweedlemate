@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Registration</title>
+	<f:loadBundle basename="com.tm.bundle.messages" var="msg" />
+</h:head>
+<h:body>
+	<ui:include src="/WEB-INF/inc/basic/header.xhtml" />
+
+	<div id="content">
+		<b:container>
+			<b:panel title="Sign In" rendered="#{not login.is}">
+				<ui:include src="/WEB-INF/inc/sign/signinContent.xhtml" />
+			</b:panel>
+		</b:container>
+	</div>
+
+	<ui:include src="/WEB-INF/inc/basic/footer.xhtml" />
+</h:body>
+</html>

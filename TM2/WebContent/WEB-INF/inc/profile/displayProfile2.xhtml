@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+
+	<b:row>
+		<h2>
+			#{shownUser.firstName}
+			<h:outputText rendered="#{isMine}" value="(It is u)" />
+		</h2>
+	</b:row>
+
+	<b:column id="sidePanel" col-md="3">
+		<b:row id="nutshell">
+			<b:panel>
+				<ui:include src="/WEB-INF/inc/profile/nutshell.xhtml" />
+			</b:panel>
+		</b:row>
+		<b:row id="sideInfo">
+			<b:panel>
+				<b:row id="commentsAppointment">
+					<b:row id="com1">
+						<b:column col-md="4">
+							<b:row style="height:3em;border-style: solid; border-width: 1px;">PICTURE</b:row>
+							<b:row>NameOf1</b:row>
+						</b:column>
+						<b:column col-md="8">
+					Oh this guys is awesome you should met him, his cricket stuff is amazing, I am totally applyng for this school !
+					</b:column>
+					</b:row>
+					<b:row id="com2">
+						<b:column col-md="4">
+							<b:row style="height:3em;border-style: solid; border-width: 1px;">PICTURE</b:row>
+							<b:row>NameOf2</b:row>
+						</b:column>
+						<b:column col-md="8">
+					Oh this guys is awesome you should met him, his cricket stuff is amazing, I am totally applyng for this school !
+					</b:column>
+					</b:row>
+				</b:row>
+			</b:panel>
+		</b:row>
+	</b:column>
+	<b:column id="mainContent" col-md="9">
+		<b:panel>
+			<b:row id="specInfo">
+				<ui:include src="/WEB-INF/inc/profile/specInfo.xhtml" />
+			</b:row>
+			<b:row id="mainInfo">
+				<b:panel title="Education" col-md="6">
+					<ui:include src="/WEB-INF/inc/profile/panelEducation.xhtml" />
+				</b:panel>
+				<b:panel title="Scholarship" col-md="6">
+					<ui:include src="/WEB-INF/inc/profile/panelScholarship.xhtml" />
+				</b:panel>
+				<b:panel title="Experience" col-md="6">
+					<ui:include src="/WEB-INF/inc/profile/panelExperience.xhtml" />
+				</b:panel>
+				<b:panel title="Work" col-md="6">
+					<ui:include src="/WEB-INF/inc/profile/panelWork.xhtml" />
+				</b:panel>
+			</b:row>
+		</b:panel>
+
+	</b:column>
+
+
+</ui:composition>

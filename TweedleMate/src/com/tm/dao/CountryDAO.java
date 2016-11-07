@@ -17,7 +17,7 @@ public class CountryDAO {
 	private static final String Q_SELECT_FROM_CODE3 = "SELECT u FROM Country u WHERE u.Code3 = ?1";
 	private static final String Q_SELECT_ID_NAME = "SELECT c FROM Country c ORDER BY c.Name";
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	/**

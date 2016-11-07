@@ -12,7 +12,7 @@ import com.tm.entities.Country;
 @Stateless
 public class CountryDAO {
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	private static final String Q_SELECT_FROM_NAME = "SELECT u FROM Country u WHERE u.Name = ?1";

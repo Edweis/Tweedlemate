@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+
+	<b:row>
+		<h2>
+			#{shownUser.firstName}
+			<h:outputText rendered="#{isMine}" value="(It is u)" />
+		</h2>
+	</b:row>
+	<b:row id="nutshell">
+		<b:panel>
+
+		</b:panel>
+	</b:row>
+	<b:row id="mainContent">
+		<b:column id="sideInfo" col-md="4">
+			<b:panel title="Chats">
+				<ui:repeat value="#{chatTools.allChats}" var="c">
+					<b:row>
+						<b:column col-md="4">
+							<b:panel
+								style="height:8em; border-style: solid; border-width: 1px;">
+								PICTURE #{c.id}
+							</b:panel>
+						</b:column>
+						<b:column col-md="4">
+							<b:row>
+								<i>With : </i>
+								<b>#{c.room.participantsToString()}</b>
+							</b:row>
+							<b:row>
+								<i>Title : </i>
+								#{c.titleChat}
+							</b:row>
+						</b:column>
+					</b:row>
+				</ui:repeat>
+			</b:panel>
+		</b:column>
+		<b:column id="details" col-md="8">
+			<b:panel title="Chat with #{shownUser}"
+				rendered="#{not empty shownUser}">
+				<b:row>
+					<h2>
+						#{chatTools.selectedChat.titleChat} <br />
+						<small> with </small>
+						#{chatTools.selectedChat.room.participantsToString()}
+					</h2>
+				</b:row>
+
+				<h:form id="chat">
+					<p:dataList id="listMessages" var="m"
+						value="#{chatTools.displayedMessages}">
+						<f:facet name="header">
+                        	Messages
+                   		</f:facet>
+						<b:row>
+							<b:column offset-md="#{(login.user.id==m.writer.id)?'0':'4'}"
+								col-md="8">
+								<b:row>
+									<small>#{m.date}</small>
+								</b:row>
+								<b:row>
+									 <b>#{m.writer}</b> : #{m.content} 
+								</b:row>
+							</b:column>
+						</b:row>
+	                     
+                	</p:dataList>
+
+                Text: <b:inputText value="#{chatTools.message.content}"
+						required="true" />
+					<p:poll interval="3" update="listMessages"
+						listener="#{chatTools.lastMessages}" />
+					<b:commandButton value="Send" action="#{chatTools.sendMessage}"
+						update="@form">
+						<f:param name="id" value="#{shownUser.id}" />
+					</b:commandButton>
+					<b:messages />
+				</h:form>
+
+			</b:panel>
+			<b:panel title="Chat" rendered="#{empty shownUser}">
+				<h3>
+					<small>Please select a chat</small>
+				</h3>
+			</b:panel>
+		</b:column>
+	</b:row>
+
+</ui:composition>

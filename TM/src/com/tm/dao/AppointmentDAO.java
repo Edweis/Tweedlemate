@@ -11,7 +11,7 @@ import com.tm.entities.Appointment;
 @Stateless
 public class AppointmentDAO {
 
-	@PersistenceContext(unitName = "db_tm_PU")
+	@PersistenceContext
 	private EntityManager em;
 
 	public void create(Appointment object) {

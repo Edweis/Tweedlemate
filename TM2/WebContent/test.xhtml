@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<meta charset="utf-8" />
+	<title>Inscription</title>
+	<f:loadBundle basename="com.tm.bundle.messages" var="msg" />
+</h:head>
+<h:body>
+	<h:form id="formulaire">
+		<fieldset>
+			<legend>Inscription</legend>
+			<h:outputLabel for="email">Adresse email <span
+					class="requis">*</span>
+			</h:outputLabel>
+			<h:inputText id="email" value="#{userRegistration.user.email}"
+				size="20" maxlength="60">
+				<f:ajax event="blur" render="emailMessage" />
+			</h:inputText>
+			<h:message id="emailMessage" for="email" errorClass="erreur" />
+			<br />
+
+			<h:outputLabel for="password">Mot de passe <span
+					class="requis">*</span>
+			</h:outputLabel>
+			<h:inputSecret id="password"
+				value="#{userRegistration.user.password}" size="20" maxlength="20">
+				<f:ajax event="blur" render="passwordMessage" />
+			</h:inputSecret>
+			<h:message id="passwordMessage" for="password" errorClass="erreur" />
+			<br />
+
+
+			<h:outputLabel for="firstName">firstName d'user <span
+					class="requis">*</span>
+			</h:outputLabel>
+			<h:inputText id="firstName"
+				value="#{userRegistration.user.firstName}" size="20" maxlength="20">
+				<f:ajax event="blur" render="firstNameMessage" />
+			</h:inputText>
+			<h:message id="firstNameMessage" for="firstName" errorClass="erreur" />
+			<br />
+
+			<h:messages globalOnly="true" infoClass="info" />
+
+			<h:commandButton value="Inscription"
+				action="#{userRegistration.register}" styleClass="sansLabel">
+				<f:ajax execute="@form" render="@form" />
+			</h:commandButton>
+			<br />
+		</fieldset>
+	</h:form>
+</h:body>
+</html>

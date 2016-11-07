@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form rendered="#{not login.is}">
+		<p:fieldset legend="Register">
+			<p:panelGrid columns="3">
+				<p:outputLabel for="email">Email address</p:outputLabel>
+				<p:inputText id="email" value="#{login.user.email}"
+					binding="#{emailAtt}" required="true" size="20" maxlength="60"/>
+				<p:message id="emailMessage" for="email" errorClass="erreur" />
+
+				<p:outputLabel for="password">Password</p:outputLabel>
+				<h:inputSecret id="password" value="#{login.user.password}"
+					required="true" size="20" maxlength="20">
+					<f:attribute name="emailAtt" value="#{emailAtt}" />
+					<f:validator binding="#{identificationMatchValidator}" />
+				</h:inputSecret>
+				<p:message id="passwordMessage" for="password" errorClass="erreur" />
+
+				<f:facet name="footer">
+					<p:commandButton value="Sign In"
+						actionListener="#{login.connect}" ajax="false" process="@form">
+						<f:param name="id" value="#{shownUser.id}" icon="ui-icon-check" />
+					</p:commandButton>
+				</f:facet>
+				<br />
+			</p:panelGrid>
+		</p:fieldset>
+	</h:form>
+</ui:composition>

@@ -32,14 +32,14 @@ public class Education {
 	private String VerifEmail;
 	private Boolean IsEmailVerified;
 
-	@Override
-	public String toString() {
-		if (Major == null) {
-			return School.toString();
-		} else {
-			return School.toString() + " - " + Major;
-		}
-	}
+	// @Override
+	// public String toString() {
+	// if (Major == null) {
+	// return School.toString();
+	// } else {
+	// return School.toString() + " - " + Major;
+	// }
+	// }
 
 	public Long getId() {
 		return Id;

@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:b="http://bootsfaces.net/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h3>Chat with #{shownUser.firstName} and you #{login.user.firstName}</h3>
+	<h4>For the school #{shownUser.myEducation[0]}</h4>
+	<h:form>
+		<fieldset>
+			<LEGEND>New message to #{shownUser.firstName}</LEGEND>
+
+			<p:outputLabel for="titleChat">Chat title</p:outputLabel>
+			<p:inputText id="titleChat" value="#{appointmentHandler.titleChat}"
+				size="50" maxlength="50">
+				<f:ajax event="blur" render="titleChatMessage" />
+			</p:inputText>
+			<p:message id="titleChatMessage" for="titleChat" errorClass="erreur" />
+			<br />
+
+			<p:outputLabel for="newMessage">Message</p:outputLabel>
+			<p:inputTextarea id="newMessage"
+				value="#{appointmentHandler.content}" rows="10" cols="50">
+				<f:ajax event="blur" render="newMessageMessage" />
+			</p:inputTextarea>
+			<p:message id="newMessageMessage" for="newMessage"
+				errorClass="erreur" />
+			<br />
+
+			<p:messages globalOnly="true" infoClass="info" />
+
+			<p:commandButton value="sendMessage"
+				action="#{appointmentHandler.handle}">
+				<f:setPropertyActionListener
+					target="#{appointmentHandler.titleAppointment}"
+					value="TileAppointment" />
+				<f:setPropertyActionListener target="#{appointmentHandler.writer}"
+					value="#{login.user}" />
+				<f:setPropertyActionListener target="#{appointmentHandler.host}"
+					value="#{shownUser}" />
+				<f:param name="id" value="#{shownUser.id}" />
+			</p:commandButton>
+			<br />
+		</fieldset>
+		<br/>
+	</h:form>
+
+</ui:composition>

@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="workForm">
+		<ui:repeat value="#{shownUser.myWorkcursus}" var="wc">
+			<b:row>
+				<b:column col-md="8">
+					<b:row>
+						<h4>Company Name : #{wc.work.companyName}</h4>
+					</b:row>
+					<b:row>Work country : #{wc.work.country.name}</b:row>
+					<b:row>Work city : #{wc.work.city}</b:row>
+					<b:row>Time spent : #{wc.durationMonth}</b:row>
+					<b:row>Start Date : #{wc.startDate}</b:row>
+					<b:row>Position : #{wc.position}</b:row>
+					<b:row>Is current work ? #{wc.isCurrentWork}</b:row>
+				</b:column>
+
+				<b:column col-md="4" rendered="#{isMine}">
+					<b:commandButton value="Edit" look="warning"
+						action="#{workManager.editNew(e.id)}"
+						disabled="#{workManager.enableEditor}" update="@form" />
+					<b:commandButton value="Delete" look="danger"
+						disabled="#{workManager.enableEditor}"
+						action="#{workManager.remove(e.id)}" update="@form" ajax="false" />
+				</b:column>
+			</b:row>
+		</ui:repeat>
+		<b:row id="editorWork">
+			<b:row rendered="#{workManager.enableEditor}">
+				<b:panelGrid columns="3">
+					<p:outputLabel for="nameWork" value="*Work Name :" />
+					<b:inputText id="nameWork" required="true"
+						requiredMessage="This field is required"
+						value="#{workManager.wc.work.name}" />
+					<b:message id="nameWorkMessage" for="nameWork" errorClass="erreur" />
+
+					<p:outputLabel for="country" value="*Work country :" />
+					<b:selectOneMenu id="country"
+						value="#{workManager.wc.work.country}" required="true"
+						requiredMessage="This field is required" maxlength="45">
+						<f:ajax event="blur" render="countryMessage" />
+						<f:converter binding="#{countryConverter}" />
+						<f:selectItem itemLabel="Select a country" itemValue="#{null}" />
+						<f:selectItems value="#{autoComplete.getAllCountries()}" var="c"
+							itemValue="#{c}" itemLabel="#{c.name}" />
+					</b:selectOneMenu>
+					<b:message id="countryMessage" for="country" errorClass="erreur" />
+
+					<p:outputLabel for="city">Work city :</p:outputLabel>
+					<b:inputText id="city" value="#{workManager.wc.work.city}"
+						maxlength="45">
+						<f:ajax event="blur" render="cityMessage" />
+					</b:inputText>
+					<b:message id="cityMessage" for="city" errorClass="erreur" />
+
+					<p:outputLabel for="startDate">Start Date :</p:outputLabel>
+					<b:inputText id="startDate" value="#{workManager.wc.startDate}"
+						maxlength="45">
+						<f:ajax event="blur" render="startDateMessage" />
+					</b:inputText>
+					<b:message id="startDateMessage" for="startDate"
+						errorClass="erreur" />
+
+					<p:outputLabel for="duration">Duration in month :</p:outputLabel>
+					<b:inputText id="duration" value="#{workManager.wc.durationMonth}"
+						maxlength="45">
+						<f:ajax event="blur" render="durationMessage" />
+					</b:inputText>
+					<b:message id="durationMessage" for="duration"
+						errorClass="erreur" />
+
+					<p:outputLabel for="position">Position :</p:outputLabel>
+					<b:inputText id="position" value="#{workManager.wc.position}"
+						maxlength="45">
+						<f:ajax event="blur" render="positionMessage" />
+					</b:inputText>
+					<b:message id="positionMessage" for="position" errorClass="erreur" />
+
+
+					<p:outputLabel for="currentWork">Is current work ?</p:outputLabel>
+					<p:selectBooleanCheckbox id="currentWork"
+						value="#{workManager.wc.isCurrentWork}" />
+					<b:message id="currentWorkMessage" for="currentWork"
+						errorClass="erreur" />
+				</b:panelGrid>
+			</b:row>
+			<b:row>
+				<b:commandButton
+					value="Add #{(empty shownUser.myWorkcursus)?'your first':'a new'} work"
+					look="primary"
+					rendered="#{not workManager.enableEditor and isMine}"
+					action="#{workManager.editNew}" update="@form" />
+
+				<b:commandButton value="Add" look="primary"
+					rendered="#{workManager.enableEditor and isMine}"
+					action="#{workManager.add}" update="@form" ajax="false">
+					<f:setPropertyActionListener value="#{login.user}"
+						target="#{workManager.wc.user}" />
+				</b:commandButton>
+
+				<b:commandButton value="Cancel" look="warning"
+					rendered="#{workManager.enableEditor and isMine}"
+					action="#{workManager.cancel}" update="@form" ajax="true">
+				</b:commandButton>
+				<b:messages id="answers" />
+			</b:row>
+		</b:row>
+	</h:form>
+
+</ui:composition>
