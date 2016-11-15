@@ -10,14 +10,13 @@
 			<b:navBar brand="Tweedle Mate" brandHref="home.xhtml">
 				<b:navbarLinks>
 					<b:navLink value="Home" outcome="home.xhtml"></b:navLink>
-					<b:navLink value="Link" outcome="home.xhtml"></b:navLink>
-					<b:navLink value="Link" outcome="home.xhtml"></b:navLink>
+					<b:navLink value="Custom Search" outcome="search.xhtml"></b:navLink>
 				</b:navbarLinks>
 				<h:form
 					class="navbar-form navbar-left hidden-md hidden-sm hidden-xs"
 					role="search">
 					<b:inputText placeholder="Search" />
-					<b:commandButton  value="" iconAwesome="search" />
+					<b:commandButton value="" iconAwesome="search" />
 				</h:form>
 				<!-- Following line is needed for TBS 3.0.1 (panel content overflow issue) -->
 				<b:navbarLinks pull="right">
@@ -50,10 +49,12 @@
 				</b:navbarLinks>
 			</b:navBar>
 		</div>
-		<p:dialog header="Sign Up" widgetVar="sgnup" modal="true" rendered="#{not login.is}">
+		<p:dialog header="Sign Up" widgetVar="sgnup" modal="true"
+			rendered="#{not login.is}">
 			<ui:include src="/WEB-INF/inc/sign/signupContent.xhtml" />
 		</p:dialog>
-		<p:dialog header="Sign In" widgetVar="sgnin" modal="true" rendered="#{not login.is}">
+		<p:dialog header="Sign In" widgetVar="sgnin" modal="true"
+			rendered="#{not login.is}">
 			<ui:include src="/WEB-INF/inc/sign/signinContent.xhtml" />
 		</p:dialog>
 	</b:container>

@@ -14,6 +14,7 @@ import org.eclipse.persistence.annotations.Convert;
 import org.eclipse.persistence.annotations.Converter;
 import org.joda.time.DateTime;
 
+import com.tm.forms.search.Searchable;
 import com.tm.tools.JodaDateTimeConverter;
 
 @Entity
@@ -21,6 +22,7 @@ public class User extends SuperEntity {
 
 	private String Email;
 	private String Password;
+	@Searchable(userFetchPath = "User")
 	private String FirstName;
 
 	// Asttributes below are not mandatory
@@ -48,16 +50,38 @@ public class User extends SuperEntity {
 	private List<Contact> myContactsInfo;
 
 	/*
-	 * Particular methods
+	 * ### PARTICULAR METHODS
 	 */
-	private static final String ABSOLUT_PATH = "D:\\Documents\\Developpement\\MySpace\\TM2\\WebContent\\assets\\profilePicture\\";
-	private static final String RELATIVE_PATH = "assets/profilePicture/";
-	private static final String DEFAULT_PIC = "default.jpeg";
 
 	@Override
 	public String toString() {
 		return FirstName;
 	}
+
+	/**
+	 * Add a contact to the list and keep data integrity on the contact side
+	 * 
+	 * @param contact
+	 */
+	public void addContact(Contact contact) {
+		contact.setUser(this);
+		this.getMyContactsInfo().add(contact);
+	}
+
+	/*
+	 * Remove contact from the list
+	 */
+	public void removeContact(Contact contact) {
+		this.getMyContactsInfo().remove(contact);
+	}
+
+	/*
+	 * Methods about picture
+	 */
+
+	private static final String ABSOLUT_PATH = "D:\\Documents\\Developpement\\git\\Tweedlemate\\TM2\\WebContent\\assets\\profilePicture";
+	private static final String RELATIVE_PATH = "assets/profilePicture/";
+	private static final String DEFAULT_PIC = "default.jpeg";
 
 	public String getImage() {
 		return RELATIVE_PATH + getPicturePath();
@@ -93,8 +117,9 @@ public class User extends SuperEntity {
 	public String getPicNameWithoutExtension() {
 		return "pp" + this.getId().toString();
 	}
+
 	/*
-	 * Getters and setters
+	 * ### Getters and setters
 	 */
 
 	public String getAppointmentPrice() {

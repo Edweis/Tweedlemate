@@ -22,8 +22,8 @@ import javax.validation.ValidatorFactory;
  *
  */
 @Stateless
-@Local(CRUDimpl.class)
-public class GenericCRUD implements CRUDimpl {
+@Local(CRUDint.class)
+public class GenericCRUD implements CRUDint {
 
 	@PersistenceContext
 	protected EntityManager em;
@@ -56,9 +56,9 @@ public class GenericCRUD implements CRUDimpl {
 	@SuppressWarnings("unchecked")
 	public final <T> List<T> getAll(Class<?> clazz) {
 		String query = "SELECT x FROM " + clazz.getName() + " x";
-			TypedQuery<?> a = em.createQuery(query, clazz);
-			List<?> b = a.getResultList();
-			return (List<T>) b;
+		TypedQuery<?> a = em.createQuery(query, clazz);
+		List<?> b = a.getResultList();
+		return (List<T>) b;
 	}
 
 	/*
@@ -129,6 +129,11 @@ public class GenericCRUD implements CRUDimpl {
 		em.refresh(em.merge(entity));
 	}
 
+	@Override
+	public final <T> List<T> processQuery(String query, Class<T> clazz, Object param) {
+		return em.createQuery(query, clazz).setParameter(1, param).getResultList();
+	}
+
 	private <T> boolean constraintValidationsDetected(T entity) {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
@@ -146,4 +151,5 @@ public class GenericCRUD implements CRUDimpl {
 			return false;
 		}
 	}
+
 }

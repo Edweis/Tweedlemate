@@ -6,12 +6,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.tm.forms.search.Searchable;
+
 @Entity
 public class Experience extends SuperEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "IdUser")
 	@NotNull
 	private User User;
+	@Searchable(userFetchPath = "User.myExperience")
 	private String Name;
 	private String Duration;
 	private String Details;

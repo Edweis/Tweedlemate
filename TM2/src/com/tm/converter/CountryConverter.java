@@ -25,6 +25,9 @@ public class CountryConverter implements Converter {
 	@EJB
 	private CountryDAO countryDao;
 
+	/**
+	 * Convert from Country to code3
+	 */
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object modelValue) {
 		if (modelValue == null) {
@@ -37,11 +40,14 @@ public class CountryConverter implements Converter {
 		}
 	}
 
+	/**
+	 * Convert from code3 to Country
+	 */
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String submittedValue) {
 
 		if (submittedValue == null) {
-			throw new ConverterException(new FacesMessage("Please use the form t insert a country."));
+			throw new ConverterException(new FacesMessage("Please use the form to insert a country."));
 		}
 
 		if (submittedValue == "EMPTY") {

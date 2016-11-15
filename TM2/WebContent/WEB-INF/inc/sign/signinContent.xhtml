@@ -5,70 +5,70 @@
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 
 
-	<h:form id="signin" rendered="#{not login.is}">
+	<h:form id="signin2" rendered="#{not login.is}" >
 		<b:row>
-			<h:outputLabel for="email">*Mail address</h:outputLabel>
-			<b:inputText id="email" value="#{userRegistration.user.email}"
+			<h:outputLabel for="SIemail">*Mail address</h:outputLabel>
+			<b:inputText id="SIemail" value="#{userRegistration.user.email}"
 				size="20" maxlength="60">
 				<f:ajax event="blur" render="emailMessage" />
 				<f:validator binding="#{emailExistenceValidator}" />
 			</b:inputText>
-			<b:message id="emailMessage" for="email" errorClass="erreur" />
+			<b:message id="emailMessage" for="SIemail" errorClass="erreur" />
 		</b:row>
 
 		<b:row>
-			<h:outputLabel for="password">*Password</h:outputLabel>
-			<b:inputSecret id="password"
-				value="#{userRegistration.user.password}" size="20" maxlength="20"
+			<h:outputLabel for="SIpassword">*Password</h:outputLabel>
+			<b:inputSecret id="SIpassword" value="#{userRegistration.user.password}" size="20" maxlength="20"
 				binding="#{passwordAtt}">
-				<f:ajax event="blur" render="passwordMessage" />
+				<f:ajax event="blur" render="SIpasswordMessage" />
 			</b:inputSecret>
-			<p:message id="passwordMessage" for="password" errorClass="erreur" />
+			<b:message id="SIpasswordMessage" for="SIpassword" errorClass="erreur" />
 		</b:row>
 		<b:row>
-			<h:outputLabel for="confirmation">*Password confirmation</h:outputLabel>
-			<b:inputSecret id="confirmation"
+			<h:outputLabel for="SIconfirmation">*Password confirmation</h:outputLabel>
+			<b:inputSecret id="SIconfirmation"
 				value="#{userRegistration.user.password}" size="20" maxlength="20">
-				<f:ajax event="blur" execute="password confirmation"
-					render="confirmationMessage passwordMessage" />
+				<f:ajax event="blur" execute="SIpassword SIconfirmation"
+					render="SIconfirmationMessage SIpasswordMessage" />
 				<f:attribute name="passwordAtt" value="#{passwordAtt}" />
 				<f:validator validatorId="passwordMatchValidator" />
 			</b:inputSecret>
-			<b:message id="confirmationMessage" for="confirmation"
+			<b:message id="SIconfirmationMessage" for="SIconfirmation"
 				errorClass="erreur" />
 		</b:row>
 		<b:row>
-			<h:outputLabel for="firstName">*First Name</h:outputLabel>
-			<b:inputText id="firstName"
+			<h:outputLabel for="SIfirstName">*First Name</h:outputLabel>
+			<b:inputText id="SIfirstName"
 				value="#{userRegistration.user.firstName}" size="20" maxlength="20">
 				<f:ajax event="blur" render="firstNameMessage" />
 			</b:inputText>
-			<b:message id="firstNameMessage" for="firstName" errorClass="erreur" />
+			<b:message id="firstNameMessage" for="SIfirstName" errorClass="erreur" />
 		</b:row>
 		<b:row>
-			<h:outputLabel for="school">School name</h:outputLabel>
-			<p:autoComplete id="school" value="#{userRegistration.school.name}"
-				completeMethod="#{autoComplete.allSchools}" />
-			<b:message id="schoolMessage" for="school" errorClass="erreur" />
+			<h:outputLabel for="SIschool">School name</h:outputLabel>
+			<p:autoComplete id="SIschool" value="#{userRegistration.school.name}"
+				completeMethod="#{autoComplete.allSchools}" >
+				</p:autoComplete>
+			<b:message id="schoolMessage" for="SIschool" errorClass="erreur" />
 		</b:row>
 
 		<b:row>
-			<h:outputLabel for="country">Where ?</h:outputLabel>
-			<b:selectOneMenu id="country"
+			<h:outputLabel for="SIcountry">Where ?</h:outputLabel>
+			<b:selectOneMenu id="SIcountry"
 				value="#{userRegistration.school.country}" maxlength="45">
 				<f:converter binding="#{countryConverter}" />
 				<f:ajax event="blur" render="countryMessage" />
 				<f:selectItems value="#{autoComplete.getAllCountries()}" var="c"
 					itemValue="#{c}" itemLabel="#{c.name}" />
 			</b:selectOneMenu>
-			<b:message id="countryMessage" for="country" errorClass="erreur" />
+			<b:message id="countryMessage" for="SIcountry" errorClass="erreur" />
 		</b:row>
 
 
 		<b:row>
 			<b:messages globalOnly="true" infoClass="info" />
 
-			<b:commandButton value="Inscription" styleClass="sansLabel">
+			<b:commandButton value="Sign In" styleClass="sansLabel">
 				<f:actionListener binding="#{userRegistration.register()}" />
 				<f:actionListener binding="#{login.connect()}" />
 			</b:commandButton>

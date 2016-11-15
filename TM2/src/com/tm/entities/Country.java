@@ -1,16 +1,13 @@
 package com.tm.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import com.tm.forms.search.Searchable;
 
 @Entity
-public class Country {
+public class Country extends SuperEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	@Searchable(userFetchPath = "User.myEducation.School.Country")
 	private String Name;
 	private String Code2;
 	private String Code3;
@@ -46,14 +43,6 @@ public class Country {
 
 	public void setCode3(String code3) {
 		Code3 = code3;
-	}
-
-	public Long getId() {
-		return Id;
-	}
-
-	public void setId(Long id) {
-		Id = id;
 	}
 
 	public String getName() {

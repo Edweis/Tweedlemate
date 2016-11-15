@@ -31,7 +31,7 @@
 		<b:row id="editorScholarship">
 			<b:row rendered="#{scholarshipManager.enableEditor}">
 				<b:panelGrid columns="3">
-				
+
 					<p:outputLabel for="nameScholarship" value="*Scholarship Name :" />
 					<p:autoComplete id="nameScholarship" required="true"
 						requiredMessage="This field is required"
@@ -56,28 +56,31 @@
 						errorClass="erreur" />
 
 					<p:outputLabel for="amount">Amount :</p:outputLabel>
-					<b:inputText id="amount"
-						value="#{scholarshipManager.fun.amount}" maxlength="45">
+					<b:inputText id="amount" value="#{scholarshipManager.fun.amount}"
+						maxlength="45">
 						<f:ajax event="blur" render="amountMessage" />
 					</b:inputText>
-					<b:message id="amountMessage" for="amount"
-						errorClass="erreur" />
+					<b:message id="amountMessage" for="amount" errorClass="erreur" />
 
 				</b:panelGrid>
 			</b:row>
 			<b:row>
-				<b:commandButton value="Add #{(empty shownUser.myFunding)?'your first':'a new'} scholarship" look="primary"
+				<b:commandButton
+					value="Add #{(empty shownUser.myFunding)?'your first':'a new'} scholarship"
+					look="primary"
 					rendered="#{not scholarshipManager.enableEditor and isMine}"
 					action="#{scholarshipManager.editNew}" update="@form" />
 
 				<b:commandButton value="Add" look="primary"
 					rendered="#{scholarshipManager.enableEditor and isMine}"
 					action="#{scholarshipManager.add}" update="@form" ajax="false">
-					<f:setPropertyActionListener value="#{login.user}" target="#{scholarshipManager.fun.user}"/>
+					<f:setPropertyActionListener value="#{login.user}"
+						target="#{scholarshipManager.fun.user}" />
 				</b:commandButton>
 				<b:commandButton value="Cancel" look="warning"
 					rendered="#{scholarshipManager.enableEditor and isMine}"
-					action="#{scholarshipManager.cancel}" update="@form" ajax="true">
+					action="#{scholarshipManager.cancel}" update="@form" ajax="true"
+					immediate="true">
 				</b:commandButton>
 
 				<b:messages id="answers" />

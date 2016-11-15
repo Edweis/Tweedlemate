@@ -5,9 +5,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.tm.forms.search.Searchable;
+
 @Entity
 public class Work extends SuperEntity {
 
+	@Searchable(userFetchPath = "User.myWorkcursus.Work")
 	private String CompanyName;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "Idcountry")
@@ -37,4 +40,5 @@ public class Work extends SuperEntity {
 	public void setCity(String city) {
 		City = city;
 	}
+
 }

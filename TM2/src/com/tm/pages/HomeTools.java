@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.tm.dao.CRUDimpl;
+import com.tm.dao.CRUDint;
 import com.tm.entities.User;
 
 @ManagedBean
@@ -14,7 +14,7 @@ import com.tm.entities.User;
 public class HomeTools {
 
 	@EJB
-	CRUDimpl crud;
+	CRUDint crud;
 
 	public List<User> getFrontPageUsers() {
 		return crud.getAll(User.class);

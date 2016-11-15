@@ -3,7 +3,7 @@ package com.tm.dao;
 import java.util.List;
 import java.util.Set;
 
-public interface CRUDimpl {
+public interface CRUDint {
 
 	/**
 	 * Persist an entity
@@ -52,5 +52,14 @@ public interface CRUDimpl {
 	<T> T getFromId(Class<?> clazz, Long id);
 
 	<T> List<T> getAll(Class<?> clazz);
+
+	/**
+	 * Get the result from the query, behave like @See createQuery
+	 * 
+	 * @param query
+	 * @param clazz
+	 * @return
+	 */
+	<T> List<T> processQuery(String query, Class<T> clazz, Object param);
 
 }

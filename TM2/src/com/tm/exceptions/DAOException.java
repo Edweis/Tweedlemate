@@ -1,5 +1,12 @@
 package com.tm.exceptions;
 
+/**
+ * This exception occurs when an fatal error occurred in relation with the
+ * database action.
+ * 
+ * @author François Rullière
+ *
+ */
 public class DAOException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 

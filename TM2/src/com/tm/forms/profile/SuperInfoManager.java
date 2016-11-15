@@ -7,7 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
-import com.tm.dao.CRUDimpl;
+import com.tm.dao.CRUDint;
 import com.tm.entities.SuperEntity;
 import com.tm.entities.User;
 
@@ -35,7 +35,7 @@ public abstract class SuperInfoManager<T extends SuperEntity> {
 	@ManagedProperty(value = "#{profileTools.shownUser}")
 	protected User shownUser;
 	@EJB
-	CRUDimpl crud;
+	protected CRUDint crud;
 
 	private Class<?> clazz;
 
@@ -113,8 +113,16 @@ public abstract class SuperInfoManager<T extends SuperEntity> {
 		getListAllowObj().remove(o);
 	}
 
+	/**
+	 * Optional method to perform before persist
+	 */
+	public void beforeAddEntity() {
+
+	}
+
 	public String add() {
 		if (enableEditor) {
+			beforeAddEntity();
 			addEntity();
 			refreshUser();
 			enableEditor = false;
@@ -193,11 +201,11 @@ public abstract class SuperInfoManager<T extends SuperEntity> {
 		this.shownUser = shownUser;
 	}
 
-	public CRUDimpl getCrud() {
+	public CRUDint getCrud() {
 		return crud;
 	}
 
-	public void setCrud(CRUDimpl crud) {
+	public void setCrud(CRUDint crud) {
 		this.crud = crud;
 	}
 

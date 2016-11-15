@@ -18,7 +18,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-import com.tm.dao.CRUDimpl;
+import com.tm.dao.CRUDint;
 import com.tm.dao.UserDAO;
 import com.tm.entities.Contact;
 import com.tm.entities.User;
@@ -38,10 +38,11 @@ public class ProfileTools {
 	private boolean enableIT;
 	private boolean enableEditContact;
 	private Contact contact;
+	private UploadedFile file;
 
 	// private
 	@EJB
-	private CRUDimpl crud;
+	private CRUDint crud;
 	@EJB
 	private UserDAO userDao;
 
@@ -55,8 +56,7 @@ public class ProfileTools {
 	// *** Contacts
 
 	public void addContact() {
-		contact.setUser(connectedUser);
-		connectedUser.getMyContactsInfo().add(contact);
+		connectedUser.addContact(contact);
 		crud.create(contact);
 		saveUser();
 		contact = new Contact();
@@ -66,7 +66,7 @@ public class ProfileTools {
 		Contact c = crud.getFromId(Contact.class, Long.parseLong(contactId));
 		if (connectedUser.getMyContactsInfo().contains(c)) {
 			crud.remove(c);
-			connectedUser.getMyContactsInfo().remove(c);
+			connectedUser.removeContact(c);
 			saveUser();
 		} else {
 			launchMessage(ERROR_MESSAGE_ACCESS_DENIED);
@@ -76,10 +76,11 @@ public class ProfileTools {
 	// *** Picture
 
 	/**
-	 * Action that change the picture with ajax
+	 * Event that change the picture with ajax
 	 * 
 	 * @param event
 	 */
+	@Deprecated()
 	public void changePic(FileUploadEvent event) {
 
 		try {
@@ -88,6 +89,26 @@ public class ProfileTools {
 			crud.merge(connectedUser);
 
 			launchMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Action that change the picture with ajax
+	 * 
+	 * @param event
+	 */
+	public void changePic2() {
+
+		try {
+			saveFile(file, connectedUser.getPictureFolder(), connectedUser.getPicNameWithoutExtension());
+			connectedUser.setPictureExtension(FilenameUtils.getExtension(file.getFileName()));
+			crud.merge(connectedUser);
+
+			launchMessage("Succesful", file.getFileName() + " is uploaded.");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -239,5 +260,13 @@ public class ProfileTools {
 
 	public void setContact(Contact contact) {
 		this.contact = contact;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
 	}
 }

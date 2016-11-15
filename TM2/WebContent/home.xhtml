@@ -2,7 +2,8 @@
 <html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:b="http://bootsfaces.net/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Home</title>
 </h:head>
@@ -10,21 +11,13 @@
 	<ui:include src="/WEB-INF/inc/basic/header.xhtml" />
 	<div id="content">
 		<h1>Hello you !</h1>
-
-		<ui:repeat value="#{homeTools.getFrontPageUsers()}" var="u">
-			<div
-				style="width: 200px; float: left; border-style: solid; border-width: 1px;" >
-				<b><h:link value="#{u.firstName}" outcome="profile.xhtml">
-						<f:param name="id" value="#{u.id}" />
-					</h:link> </b>
-				<p>
-					<h:link value="Chat now" outcome="appointment.xhtml">
-						<f:param name="id" value="#{u.id}" />
-					</h:link>
-				</p>
-			</div>
-		</ui:repeat>
-
+		<b:container>
+			<ui:repeat value="#{homeTools.getFrontPageUsers()}" var="u">
+				<ui:include src="/WEB-INF/inc/blocs/user.xhtml">
+					<ui:param name="user" value="#{u}" />
+				</ui:include>
+			</ui:repeat>
+		</b:container>
 	</div>
 	<ui:include src="/WEB-INF/inc/basic/footer.xhtml" />
 </h:body>

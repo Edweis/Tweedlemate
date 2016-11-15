@@ -6,6 +6,16 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
+/**
+ * Super class of all entity that provides :
+ * <ul>
+ * <li><tt>Id</tt> field management</li>
+ * <li>Basics functions like <tt>equals()</tt></li>
+ * </ul>
+ * 
+ * @author François Rullière
+ *
+ */
 public class SuperEntity {
 
 	@Id
@@ -26,6 +36,10 @@ public class SuperEntity {
 			return false;
 		}
 		return ((SuperEntity) entity).getId() == this.getId();
+	}
+
+	public String toLabel() {
+		return this.getClass().getSimpleName();
 	}
 
 	public Long getId() {

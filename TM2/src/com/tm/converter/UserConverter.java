@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import com.tm.dao.CRUDimpl;
+import com.tm.dao.CRUDint;
 import com.tm.entities.User;
 
 /**
@@ -23,7 +23,7 @@ import com.tm.entities.User;
 public class UserConverter implements Converter {
 
 	@EJB
-	private CRUDimpl crud;
+	private CRUDint crud;
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object modelValue) {

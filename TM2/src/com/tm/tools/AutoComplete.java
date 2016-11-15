@@ -6,7 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 
-import com.tm.dao.CRUDimpl;
+import com.tm.dao.CRUDint;
 import com.tm.dao.SchoolDAO;
 import com.tm.entities.Country;
 import com.tm.entities.Scholarship;
@@ -17,7 +17,7 @@ public class AutoComplete {
 	@EJB
 	private SchoolDAO schoolDao;
 	@EJB
-	private CRUDimpl crud;;
+	private CRUDint crud;;
 
 	public List<String> allSchools(String input) {
 		List<String> results = new ArrayList<String>();

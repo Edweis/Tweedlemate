@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 
 import org.joda.time.DateTime;
 
-import com.tm.dao.CRUDimpl;
+import com.tm.dao.CRUDint;
 import com.tm.entities.Education;
 import com.tm.entities.School;
 import com.tm.entities.User;
@@ -27,7 +27,7 @@ public class UserRegistration implements Serializable {
 	private School school;
 
 	@EJB
-	private CRUDimpl crud;
+	private CRUDint crud;
 
 	@PostConstruct
 	public void init() {

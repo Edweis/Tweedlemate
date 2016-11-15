@@ -3,9 +3,12 @@ package com.tm.entities;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+import com.tm.forms.search.Searchable;
+
 @Entity
 public class Scholarship extends SuperEntity {
 
+	@Searchable(userFetchPath = "User.myFunding.Scholarship")
 	private String Title;
 	private String Year;
 	private String Ref;

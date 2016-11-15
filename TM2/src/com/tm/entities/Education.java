@@ -2,13 +2,18 @@ package com.tm.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.tm.forms.search.Searchable;
+import com.tm.tools.EntityListener;
+
 @Entity
+@EntityListeners(EntityListener.class)
 public class Education extends SuperEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -21,6 +26,7 @@ public class Education extends SuperEntity {
 	private Integer DurationMonth;
 	private Integer StartYear;
 	private String Promotion;
+	@Searchable(userFetchPath = "User.myEducation")
 	private String Major;
 	private Boolean IsHomeUniversity;
 	private Boolean IsCurrentEducation;

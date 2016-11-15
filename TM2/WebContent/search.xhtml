@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>Search</title>
+	<f:metadata>
+		<f:viewParam name="s" value="#{searchTools.searchAtoms}"
+			converter="#{searchURLConverter}"
+			converterMessage="Bad request. Unknown search" required="false" />
+		<f:event type="preRenderView" listener="#{searchTools.init}" />
+	</f:metadata>
+</h:head>
+<h:body>
+	<ui:include src="/WEB-INF/inc/basic/header.xhtml" />
+
+	<div id="content">
+
+		<h1>Search</h1>
+
+		<b:container>
+			<b:column id="sidePanel" col-md="3">
+				<b:column id="filtersBox">
+					<h:form id="filters">
+
+						<ui:repeat value="#{searchTools.filters}" var="filter">
+							<b:row>
+								<b:selectBooleanCheckbox label="#{filter.title}" value="#{filter.active}" />
+								<ui:repeat value="#{filter.fields}" var="displayField">
+									#{displayField.name}
+								</ui:repeat>
+							</b:row>
+						</ui:repeat>
+					</h:form>
+				</b:column>
+				<b:column>
+				A second column
+				</b:column>
+
+			</b:column>
+			<b:column id="mainContent" col-md="9">
+				<b:panel id="searchBar">
+					<h:form>
+						<b:inputText placeholder="Input your research here ..."
+							value="#{searchTools.searchInput}" col-md="10" />
+						<b:commandButton value=" " iconAwesome="plus"
+							action="#{searchTools.addAtom}" col-md="1" update="@form"
+							ajax="true" tooltip="add search item" />
+						<b:commandButton value=" " iconAwesome="remove"
+							action="#{searchTools.resetAtom}" col-md="1" update="@form"
+							ajax="true" tooltip="reset research" />
+
+						<div id="atoms">
+							<ui:repeat value="#{searchTools.searchAtoms}" var="a">
+								<b:label text="#{a}" class="badge" />
+							</ui:repeat>
+						</div>
+					</h:form>
+				</b:panel>
+
+				<b:panel id="resultBoard">
+					<h:outputText value="Please insert a research"
+						rendered="#{empty searchTools.searchAtoms}" />
+					<ui:repeat value="#{searchTools.researchResult}" var="r">
+						<b:panel title="#{r.filter.title} - #{r.filter.nbResult}">
+							<ui:repeat value="#{r.userResult}" var="u">
+								<ui:include src="/WEB-INF/inc/blocs/user.xhtml">
+									<ui:param name="user" value="#{u}" />
+								</ui:include>
+							</ui:repeat>
+						</b:panel>
+					</ui:repeat>
+					<b:messages />
+				</b:panel>
+			</b:column>
+		</b:container>
+
+		<b:messages globalOnly="true" infoClass="info" />
+	</div>
+
+	<ui:include src="/WEB-INF/inc/basic/footer.xhtml" />
+</h:body>
+</html>

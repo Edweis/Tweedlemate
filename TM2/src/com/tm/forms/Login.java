@@ -11,7 +11,6 @@ import javax.persistence.NoResultException;
 
 import com.tm.dao.UserDAO;
 import com.tm.entities.User;
-import com.tm.tools.FaceUtil;
 
 @ManagedBean
 @SessionScoped
@@ -46,13 +45,6 @@ public class Login implements Serializable {
 
 		FacesContext.getCurrentInstance().addMessage(null, message);
 		return redirect;
-	}
-
-	public String disconnect() {
-		FaceUtil.setSessionUser(null);
-		user = new User();
-		setIs(false);
-		return "/home.xhtml";
 	}
 
 	public User getUser() {

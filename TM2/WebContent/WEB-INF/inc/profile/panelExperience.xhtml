@@ -34,39 +34,42 @@
 						value="#{experienceManager.exp.name}" maxlength="45">
 						<f:ajax event="blur" render="experinceNameMessage" />
 					</b:inputText>
-					<b:message id="experinceNameMessage" for="experinceName" errorClass="erreur" />
+					<b:message id="experinceNameMessage" for="experinceName"
+						errorClass="erreur" />
 
 					<p:outputLabel for="duration">Duration :</p:outputLabel>
 					<b:inputText id="duration"
 						value="#{experienceManager.exp.duration}" maxlength="45">
 						<f:ajax event="blur" render="durationMessage" />
 					</b:inputText>
-					<b:message id="durationMessage" for="duration"
-						errorClass="erreur" />
+					<b:message id="durationMessage" for="duration" errorClass="erreur" />
 
 					<p:outputLabel for="details">Details :</p:outputLabel>
-					<b:inputText id="details"
-						value="#{experienceManager.exp.details}" maxlength="45">
+					<b:inputText id="details" value="#{experienceManager.exp.details}"
+						maxlength="45">
 						<f:ajax event="blur" render="detailsMessage" />
 					</b:inputText>
-					<b:message id="detailsMessage" for="details"
-						errorClass="erreur" />
+					<b:message id="detailsMessage" for="details" errorClass="erreur" />
 				</b:panelGrid>
 			</b:row>
 			<b:row>
-				<b:commandButton value="Add #{(empty shownUser.myExperience)?'your first':'a new'} experience" look="primary"
+				<b:commandButton
+					value="Add #{(empty shownUser.myExperience)?'your first':'a new'} experience"
+					look="primary"
 					rendered="#{not experienceManager.enableEditor and isMine}"
 					action="#{experienceManager.editNew}" update="@form" />
 
 				<b:commandButton value="Add" look="primary"
 					rendered="#{experienceManager.enableEditor and isMine}"
 					action="#{experienceManager.add}" update="@form" ajax="false">
-					<f:setPropertyActionListener value="#{login.user}" target="#{experienceManager.exp.user}"/>
+					<f:setPropertyActionListener value="#{login.user}"
+						target="#{experienceManager.exp.user}" />
 				</b:commandButton>
-				
+
 				<b:commandButton value="Cancel" look="warning"
 					rendered="#{experienceManager.enableEditor and isMine}"
-					action="#{experienceManager.cancel}" update="@form" ajax="true">
+					action="#{experienceManager.cancel}" update="@form" ajax="true"
+					immediate="true">
 				</b:commandButton>
 			</b:row>
 		</b:row>

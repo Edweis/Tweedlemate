@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 
 import org.joda.time.DateTime;
 
-import com.tm.dao.CRUDimpl;
+import com.tm.dao.CRUDint;
 import com.tm.dao.MessageDAO;
 import com.tm.dao.RoomDAO;
 import com.tm.entities.Chat;
@@ -63,7 +63,7 @@ public class ChatTools {
 	@EJB
 	RoomDAO roomDao;
 	@EJB
-	CRUDimpl crud;
+	CRUDint crud;
 
 	@PostConstruct
 	public void init() {

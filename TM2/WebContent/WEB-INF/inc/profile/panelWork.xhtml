@@ -70,8 +70,7 @@
 						maxlength="45">
 						<f:ajax event="blur" render="durationMessage" />
 					</b:inputText>
-					<b:message id="durationMessage" for="duration"
-						errorClass="erreur" />
+					<b:message id="durationMessage" for="duration" errorClass="erreur" />
 
 					<p:outputLabel for="position">Position :</p:outputLabel>
 					<b:inputText id="position" value="#{workManager.wc.position}"
@@ -82,7 +81,7 @@
 
 
 					<p:outputLabel for="currentWork">Is current work ?</p:outputLabel>
-					<p:selectBooleanCheckbox id="currentWork"
+					<b:selectBooleanCheckbox id="currentWork"
 						value="#{workManager.wc.isCurrentWork}" />
 					<b:message id="currentWorkMessage" for="currentWork"
 						errorClass="erreur" />
@@ -104,7 +103,8 @@
 
 				<b:commandButton value="Cancel" look="warning"
 					rendered="#{workManager.enableEditor and isMine}"
-					action="#{workManager.cancel}" update="@form" ajax="true">
+					action="#{workManager.cancel}" update="@form" ajax="true"
+					immediate="true">
 				</b:commandButton>
 				<b:messages id="answers" />
 			</b:row>

@@ -14,21 +14,24 @@
 
 	<b:column id="sidePanel" col-md="3">
 		<b:row id="nutshell">
-			<b:panel>
-				<ui:include src="/WEB-INF/inc/profile/nutshell.xhtml" />
-			</b:panel>
+			<b:column>
+				<b:panel>
+					<ui:include src="/WEB-INF/inc/profile/nutshell.xhtml" />
+				</b:panel>
+			</b:column>
 		</b:row>
 		<b:row id="sideInfo">
 			<b:panel>
-				<b:row id="commentsAppointment">
+				<b:column id="commentsAppointment">
 					<b:row id="com1">
 						<b:column col-md="4">
-							<b:row style="height:3em;border-style: solid; border-width: 1px;">PICTURE</b:row>
+							<b:row
+								style="max-height:3em;max-width:5em;border-style: solid; border-width: 1px; align:center;">PICTURE</b:row>
 							<b:row>NameOf1</b:row>
 						</b:column>
 						<b:column col-md="8">
-					Oh this guys is awesome you should met him, his cricket stuff is amazing, I am totally applyng for this school !
-					</b:column>
+							Oh this guys is awesome you should met him, his cricket stuff is amazing, I am totally applyng for this school !
+							</b:column>
 					</b:row>
 					<b:row id="com2">
 						<b:column col-md="4">
@@ -36,10 +39,10 @@
 							<b:row>NameOf2</b:row>
 						</b:column>
 						<b:column col-md="8">
-					Oh this guys is awesome you should met him, his cricket stuff is amazing, I am totally applyng for this school !
-					</b:column>
+								Oh this guys is awesome you should met him, his cricket stuff is amazing, I am totally applyng for this school !
+							</b:column>
 					</b:row>
-				</b:row>
+				</b:column>
 			</b:panel>
 		</b:row>
 	</b:column>
