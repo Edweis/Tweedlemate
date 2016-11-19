@@ -9,15 +9,15 @@
 			tooltip="#{shownUser.firstName}" style="height:10em;" />
 		<b:row rendered="#{isMine}">
 			<h:form enctype="multipart/form-data">
-				<!-- 				<p:fileUpload fileUploadListener="#{profileTools.changePic}" -->
-				<!-- 					auto="true" update="pictureSpace" sizeLimit="5000000" -->
-				<!-- 					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" skinSimple="true" /> -->
+				<p:fileUpload fileUploadListener="#{profileTools.changePic}"
+					auto="true" update="pictureSpace" sizeLimit="5000000"
+					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" skinSimple="true" />
 
 				<p:fileUpload value="#{profileTools.file}" mode="simple"
 					sizeLimit="5000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
 					skinSimple="true" label="Select a picture" />
-				<b:commandButton value="Submit" ajax="true"
-					action="#{profileTools.changePic2}" update="pictureSpace" />
+				<b:commandButton value="Submit"
+					action="#{profileTools.changePic2()}" update="pictureSpace" />
 				<b:commandButton value="Reset profile pic" look="danger"
 					update="@form" action="#{profileTools.resetPic}" />
 				<b:messages />

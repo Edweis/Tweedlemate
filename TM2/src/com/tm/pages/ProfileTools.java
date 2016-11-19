@@ -76,7 +76,7 @@ public class ProfileTools {
 	// *** Picture
 
 	/**
-	 * Event that change the picture with ajax
+	 * Event that change the picture with AJAX
 	 * 
 	 * @param event
 	 */

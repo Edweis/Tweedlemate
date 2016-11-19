@@ -5,64 +5,8 @@
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 
 
-	<h:form id="signin2" rendered="#{not login.is}" >
-		<b:row>
-			<h:outputLabel for="SIemail">*Mail address</h:outputLabel>
-			<b:inputText id="SIemail" value="#{userRegistration.user.email}"
-				size="20" maxlength="60">
-				<f:ajax event="blur" render="emailMessage" />
-				<f:validator binding="#{emailExistenceValidator}" />
-			</b:inputText>
-			<b:message id="emailMessage" for="SIemail" errorClass="erreur" />
-		</b:row>
-
-		<b:row>
-			<h:outputLabel for="SIpassword">*Password</h:outputLabel>
-			<b:inputSecret id="SIpassword" value="#{userRegistration.user.password}" size="20" maxlength="20"
-				binding="#{passwordAtt}">
-				<f:ajax event="blur" render="SIpasswordMessage" />
-			</b:inputSecret>
-			<b:message id="SIpasswordMessage" for="SIpassword" errorClass="erreur" />
-		</b:row>
-		<b:row>
-			<h:outputLabel for="SIconfirmation">*Password confirmation</h:outputLabel>
-			<b:inputSecret id="SIconfirmation"
-				value="#{userRegistration.user.password}" size="20" maxlength="20">
-				<f:ajax event="blur" execute="SIpassword SIconfirmation"
-					render="SIconfirmationMessage SIpasswordMessage" />
-				<f:attribute name="passwordAtt" value="#{passwordAtt}" />
-				<f:validator validatorId="passwordMatchValidator" />
-			</b:inputSecret>
-			<b:message id="SIconfirmationMessage" for="SIconfirmation"
-				errorClass="erreur" />
-		</b:row>
-		<b:row>
-			<h:outputLabel for="SIfirstName">*First Name</h:outputLabel>
-			<b:inputText id="SIfirstName"
-				value="#{userRegistration.user.firstName}" size="20" maxlength="20">
-				<f:ajax event="blur" render="firstNameMessage" />
-			</b:inputText>
-			<b:message id="firstNameMessage" for="SIfirstName" errorClass="erreur" />
-		</b:row>
-		<b:row>
-			<h:outputLabel for="SIschool">School name</h:outputLabel>
-			<p:autoComplete id="SIschool" value="#{userRegistration.school.name}"
-				completeMethod="#{autoComplete.allSchools}" >
-				</p:autoComplete>
-			<b:message id="schoolMessage" for="SIschool" errorClass="erreur" />
-		</b:row>
-
-		<b:row>
-			<h:outputLabel for="SIcountry">Where ?</h:outputLabel>
-			<b:selectOneMenu id="SIcountry"
-				value="#{userRegistration.school.country}" maxlength="45">
-				<f:converter binding="#{countryConverter}" />
-				<f:ajax event="blur" render="countryMessage" />
-				<f:selectItems value="#{autoComplete.getAllCountries()}" var="c"
-					itemValue="#{c}" itemLabel="#{c.name}" />
-			</b:selectOneMenu>
-			<b:message id="countryMessage" for="SIcountry" errorClass="erreur" />
-		</b:row>
+	<h:form rendered="#{not login.is}" >
+		
 
 
 		<b:row>

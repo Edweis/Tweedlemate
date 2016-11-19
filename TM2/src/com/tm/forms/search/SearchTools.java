@@ -1,6 +1,7 @@
 package com.tm.forms.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -24,7 +25,7 @@ public class SearchTools {
 	 * Represents all tags input by the user and that should be consider in the
 	 * research, it can't be null when the research is processed
 	 */
-	private List<String> searchAtoms;
+	private String tags;
 	/**
 	 * List of filters initialized at <tt>@PostConstruct</tt> of the bean
 	 * (<tt>init()</tt> method)
@@ -50,8 +51,8 @@ public class SearchTools {
 
 		// Atoms are initiate in the viewParameter
 		// If there are some requests, lets search !
-		if (searchAtoms != null) {
-			if (!searchAtoms.isEmpty()) {
+		if (tags != null) {
+			if (!getSeparatedTags().isEmpty()) {
 				search();
 			}
 		}
@@ -68,7 +69,7 @@ public class SearchTools {
 		for (FilterSearch f : filters) {
 			List<User> filterResult = new ArrayList<User>();
 			// Lets find all users related with every atoms
-			for (String s : searchAtoms) {
+			for (String s : getSeparatedTags()) {
 				filterResult.addAll(f.search(s, crud));
 			}
 			if (!filterResult.isEmpty()) {
@@ -78,24 +79,17 @@ public class SearchTools {
 
 	}
 
-	/**
-	 * Add an atom to the list of search atom
-	 */
-	public String addAtom() {
-		if (searchInput != "") {
-			searchAtoms.add(searchInput);
-			searchInput = "";
-			// clear the previous searchs
-			researchResult = new ArrayList<SearchResultCategory>();
-			return getURLParam();
+	public List<String> getSeparatedTags() {
+		if (tags == null) {
+			return null;
 		} else {
-			// validate a null research
-			return "";
+			String[] s = tags.split(",");
+			return Arrays.asList(s);
 		}
 	}
 
-	public void resetAtom() {
-		searchAtoms = new ArrayList<String>();
+	public void resetTags() {
+		tags = "";
 	}
 
 	/**
@@ -105,21 +99,12 @@ public class SearchTools {
 	 */
 	public String getURLParam() {
 		String res = "search.xhtml?faces-redirect=true&amp;includeViewParams=true";
-		if (!searchAtoms.isEmpty()) {
+		if (!getSeparatedTags().isEmpty()) {
 			res = res + "&amp;s=";
 			SearchURLConverter suc = new SearchURLConverter();
-			res = res + suc.getAsString(searchAtoms);
+			res = res + suc.getAsString(getSeparatedTags());
 		}
 		return res;
-	}
-
-	/**
-	 * Remove an atom from the list of search atom
-	 * 
-	 * @param atom
-	 */
-	public void removeAtom(String atom) {
-		searchAtoms.remove(atom);
 	}
 
 	/**
@@ -167,14 +152,6 @@ public class SearchTools {
 		this.searchInput = searchInput;
 	}
 
-	public List<String> getSearchAtoms() {
-		return searchAtoms;
-	}
-
-	public void setSearchAtoms(List<String> searchAtoms) {
-		this.searchAtoms = searchAtoms;
-	}
-
 	public List<FilterSearch> getFilters() {
 		return filters;
 	}
@@ -189,6 +166,14 @@ public class SearchTools {
 
 	public void setFilters(List<FilterSearch> filters) {
 		this.filters = filters;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 }

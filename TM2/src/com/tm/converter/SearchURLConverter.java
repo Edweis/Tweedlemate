@@ -25,7 +25,7 @@ import javax.faces.convert.ConverterException;
 public class SearchURLConverter implements Converter {
 
 	/**
-	 * Decode the URL to an array
+	 * Decode the URL to a <tt>String</tt> tag
 	 */
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
@@ -40,26 +40,18 @@ public class SearchURLConverter implements Converter {
 	}
 
 	/**
-	 * Code the URL from the array
+	 * Code the URL from <tt>String</tt> tag
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public String getAsString(FacesContext context, UIComponent component, Object obj) {
 		if (obj == null) {
 			return "";
 		}
-		if (obj instanceof List<?>) {
-			String res = "";
-			List<String> list = (List<String>) obj;
-			if (!list.isEmpty()) {
-				for (String s : list) {
-					res = res + s.replace(" ", "+") + ",";
-				}
-				res = res.substring(0, res.length() - 1);
-			}
-			return res;
+		if (obj instanceof String) {
+			return ((String) obj).replaceAll("+", ",");
 		} else {
-			throw new ConverterException(new FacesMessage(obj + " is not a valid parameter list"));
+			throw new ConverterException(
+					new FacesMessage(obj + " is not a valid parameter list, it should be a String"));
 		}
 
 	}

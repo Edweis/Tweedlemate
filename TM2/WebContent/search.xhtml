@@ -8,7 +8,7 @@
 <h:head>
 	<title>Search</title>
 	<f:metadata>
-		<f:viewParam name="s" value="#{searchTools.searchAtoms}"
+		<f:viewParam name="s" value="#{searchTools.tags}"
 			converter="#{searchURLConverter}"
 			converterMessage="Bad request. Unknown search" required="false" />
 		<f:event type="preRenderView" listener="#{searchTools.init}" />
@@ -28,7 +28,8 @@
 
 						<ui:repeat value="#{searchTools.filters}" var="filter">
 							<b:row>
-								<b:selectBooleanCheckbox label="#{filter.title}" value="#{filter.active}" />
+								<b:selectBooleanCheckbox label="#{filter.title}"
+									value="#{filter.active}" />
 								<ui:repeat value="#{filter.fields}" var="displayField">
 									#{displayField.name}
 								</ui:repeat>
@@ -45,25 +46,17 @@
 				<b:panel id="searchBar">
 					<h:form>
 						<b:inputText placeholder="Input your research here ..."
-							value="#{searchTools.searchInput}" col-md="10" />
-						<b:commandButton value=" " iconAwesome="plus"
-							action="#{searchTools.addAtom}" col-md="1" update="@form"
-							ajax="true" tooltip="add search item" />
-						<b:commandButton value=" " iconAwesome="remove"
-							action="#{searchTools.resetAtom}" col-md="1" update="@form"
-							ajax="true" tooltip="reset research" />
+							tags="true" value="#{searchTools.tags}" col-md="10" />
+						<b:commandButton value=" " iconAwesome="search"
+							action="#{searchTools.search}" col-md="1" update="@form" process="@form"
+							tooltip="Search!"/>
 
-						<div id="atoms">
-							<ui:repeat value="#{searchTools.searchAtoms}" var="a">
-								<b:label text="#{a}" class="badge" />
-							</ui:repeat>
-						</div>
 					</h:form>
 				</b:panel>
 
 				<b:panel id="resultBoard">
 					<h:outputText value="Please insert a research"
-						rendered="#{empty searchTools.searchAtoms}" />
+						rendered="#{empty searchTools.tags}" />
 					<ui:repeat value="#{searchTools.researchResult}" var="r">
 						<b:panel title="#{r.filter.title} - #{r.filter.nbResult}">
 							<ui:repeat value="#{r.userResult}" var="u">
