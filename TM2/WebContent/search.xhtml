@@ -8,10 +8,9 @@
 <h:head>
 	<title>Search</title>
 	<f:metadata>
-		<f:viewParam name="s" value="#{searchTools.tags}"
-			converter="#{searchURLConverter}"
-			converterMessage="Bad request. Unknown search" required="false" />
-		<f:event type="preRenderView" listener="#{searchTools.init}" />
+		<f:viewParam name="s" value="#{searchTools.tags}" />
+		<f:viewParam name="f" value="#{searchTools.validatedFiltersFromURL}" />
+		<f:event type="preRenderView" listener="#{searchTools.actionOnLoad}" />
 	</f:metadata>
 </h:head>
 <h:body>
@@ -28,10 +27,11 @@
 
 						<ui:repeat value="#{searchTools.filters}" var="filter">
 							<b:row>
-								<b:selectBooleanCheckbox label="#{filter.title}"
-									value="#{filter.active}" />
+								<b:selectBooleanCheckbox caption="#{filter.title}"
+									value="#{filter.active}" ajax="true" /> 
+									Witch looks for :
 								<ui:repeat value="#{filter.fields}" var="displayField">
-									#{displayField.name}
+									#{displayField.name} 
 								</ui:repeat>
 							</b:row>
 						</ui:repeat>
@@ -48,7 +48,7 @@
 						<b:inputText placeholder="Input your research here ..."
 							tags="true" value="#{searchTools.tags}" col-md="10" />
 						<b:commandButton value=" " iconAwesome="search"
-							action="#{searchTools.search}" col-md="1" update="@form" process="@form"
+							action="#{searchTools.getURLParam}" col-md="1" process="@form"
 							tooltip="Search!"/>
 
 					</h:form>

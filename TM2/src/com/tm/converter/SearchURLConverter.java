@@ -13,8 +13,8 @@ import javax.faces.convert.ConverterException;
 
 /**
  * Convert a search URL like </br>
- * <tt>?s=para+meter+1,parma2</tt> </br>
- * to an array </br>
+ * <tt>para+meter+1,parma2</tt> </br>
+ * to an <tt>ArrayList<String></tt></br>
  * <tt>{para meter 1, param2}</tt>
  * 
  * @author François Rullière
@@ -25,7 +25,8 @@ import javax.faces.convert.ConverterException;
 public class SearchURLConverter implements Converter {
 
 	/**
-	 * Decode the URL to a <tt>String</tt> tag
+	 * Decode the URL to a <tt>String</tt> tag input : String output :
+	 * ArayList<String>
 	 */
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
@@ -36,19 +37,30 @@ public class SearchURLConverter implements Converter {
 		for (String i : value.split(",")) {
 			res.add(i.replace("+", " "));
 		}
-		return res;
+		return res;// Arraylist
 	}
 
 	/**
-	 * Code the URL from <tt>String</tt> tag
+	 * Code the URL from <tt>String</tt> tag input : ArrayList<String> output :
+	 * String
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object obj) {
 		if (obj == null) {
 			return "";
 		}
-		if (obj instanceof String) {
-			return ((String) obj).replaceAll("+", ",");
+		if (obj instanceof List<?>) {
+			ArrayList<String> a = (ArrayList<String>) obj;
+			if (a.size() == 0) {
+				return "";
+			}
+			String res = "";
+			for (String s : a) {
+				res = res + "," + s;
+			}
+			return res.substring(0, res.length() - 1);
+
 		} else {
 			throw new ConverterException(
 					new FacesMessage(obj + " is not a valid parameter list, it should be a String"));
